@@ -1,0 +1,8 @@
+<h1>Alunos</h1>
+<ul>
+    <%@alunos.each do |aluno| %>
+        <li>
+            <%= link_to aluno.nome,aluno %>
+        </li>
+    <%end%>
+</ul>
