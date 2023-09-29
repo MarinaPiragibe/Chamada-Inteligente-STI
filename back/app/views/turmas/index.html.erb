@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Turmas</h1>
+
+<div id="turmas">
+  <% @turmas.each do |turma| %>
+    <%= render turma %>
+    <p>
+      <%= link_to turma.cod_turma, turma %>
+    </p>
+  <% end %>
+</div>
+
