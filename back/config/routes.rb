@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :disciplinas
+  resources :professors
   resources :turmas
   get "/alunos", to: "alunos#index"
 
