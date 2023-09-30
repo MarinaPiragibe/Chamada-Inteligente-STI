@@ -1,3 +1,19 @@
 <h1><%= @aluno.nome %></h1>
 
 <p>Cpf: <%= @aluno.cpf %></p>
+
+<%@turmas.each do |turma| %>
+<p>Turma_id: <%= turma.id %></p> 
+<p>cod_turma: <%= turma.cod_turma %></p>
+<p>Professor_id: <%= turma.professors_id %></p>
+<br>
+<%end%>
+
+
+
+
+
+<% if @turmas.empty? %>
+<p> <%= @aluno.nome %> não está inscrito em nenhuma turma! </p>
+<%end%>
+

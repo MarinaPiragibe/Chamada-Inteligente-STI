@@ -1,3 +1,8 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @turma %>
+<p>cod_turma: <%= @turma.cod_turma %></p>
+<p>hora_inicio: <%= @turma.hora_inicio %></p>
+<p>hora_fim: <%= @turma.hora_fim %></p>
+<p>professor_id: <%= @turma.professors_id %></p>
+
+<p>Horario de: <%= Time.zone.name %></p>
