@@ -1,5 +1,4 @@
 class TurmasController < ApplicationController
-  before_action :set_turma, only: %i[ show edit update destroy ]
 
   # GET /turmas or /turmas.json
   def index
@@ -8,6 +7,11 @@ class TurmasController < ApplicationController
 
   # GET /turmas/1 or /turmas/1.json
   def show
+    @turma = Turma.find(params[:id])
+    @professor = Professor.where("id = ?",@turma.professors_id)
+    @disciplina = Disciplina.where("id = ?",@turma.disciplinas_id)
+
+    
   end
 
   # GET /turmas/new
@@ -61,6 +65,7 @@ class TurmasController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_turma
       @turma = Turma.find(params[:id])
+      @professor = Professor.where("id = ?", params[:id])
     end
 
     # Only allow a list of trusted parameters through.

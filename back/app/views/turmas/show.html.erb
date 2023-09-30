@@ -1,8 +1,17 @@
 <p style="color: green"><%= notice %></p>
 
-<p>cod_turma: <%= @turma.cod_turma %></p>
-<p>hora_inicio: <%= @turma.hora_inicio %></p>
-<p>hora_fim: <%= @turma.hora_fim %></p>
-<p>professor_id: <%= @turma.professors_id %></p>
+<p>Codigo da Turma: <%= @turma.cod_turma %></p>
+<p>Hora inicio da aula: <%= @turma.hora_inicio.strftime("%I:%M%p") %></p>
+<p>Hora fim da aula: <%= @turma.hora_fim.strftime("%I:%M%p") %></p>
+<%@professor.each do |professor| %>
+<p>Nome do prof: <%= professor.nome %></p>
+<%end%>
+<%@disciplina.each do |disciplina| %>
+<p>Nome da disciplina: <%= disciplina.nome %></p>
+<p>Codigo da disciplina: <%= disciplina.cod_disciplina %></p>
+<%end%>
+<br>
 
-<p>Horario de: <%= Time.zone.name %></p>
+<p>Horario de <%= Time.zone.name %></p>
+
+<%= link_to "Voltar", :back %>
