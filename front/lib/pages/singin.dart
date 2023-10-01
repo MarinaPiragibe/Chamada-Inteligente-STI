@@ -1,1 +1,1 @@
-//pagina para criar contas
+//pagina para criar contas(cadastro)

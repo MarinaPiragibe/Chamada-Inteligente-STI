@@ -107,6 +107,76 @@ Widget buildPassword(){
     ],
   );
 }
+Widget buildForgotPassword(){
+  return Container(
+    alignment: Alignment.centerRight,
+    child: Column(
+      children: [
+        TextButton(
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.white,
+            padding: const EdgeInsets.all(0),
+            textStyle: const TextStyle(fontSize: 10),
+          ),
+          onPressed: () {},
+          child: const Text('Esqueci a senha'),
+        ),
+      ],
+    ),
+  );
+}
+Widget buildLogin(){
+  return Container(
+    padding: EdgeInsets.symmetric(vertical:30),
+    width: double.infinity,
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.all(15),
+        shape:RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25)
+        ),
+      ),
+      onPressed: () {},
+      child: Text(
+        'LOGIN',
+        style: TextStyle(
+          color: Color(0xffa3deF8),
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget buildSingup(){
+  return GestureDetector(
+    onTap: () => print("Sing up pressed"),
+    child: RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: "Nao possui uma conta? ",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.w500
+            )
+          ),
+          TextSpan(
+            text: " Cadastre-se",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize:18,
+              fontWeight: FontWeight.bold
+            )
+          )
+        ]
+      ),
+    ),
+  );
+}
+
 class _LoginPageState extends State<LoginPage>{
   @override
 
@@ -153,6 +223,9 @@ class _LoginPageState extends State<LoginPage>{
                    buildEmail(),
                    SizedBox(height: 30),
                    buildPassword(),
+                   buildForgotPassword(),
+                   buildLogin(),
+                   buildSingup(),
                  ],
                ),
              ) ,
