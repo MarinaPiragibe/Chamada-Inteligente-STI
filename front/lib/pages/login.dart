@@ -1,3 +1,9 @@
+import 'dart:convert';
+import 'dart:html';
+import 'dart:js';
+import 'package:chamada_inteligente/pages/home.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
@@ -5,10 +11,13 @@ import 'package:flutter/services.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+  
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
+final _email = TextEditingController();
+final _senha = TextEditingController();
 Widget buildEmail(){
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,6 +46,7 @@ Widget buildEmail(){
         ),
         height: 60,
         child: TextField(
+          controller:_email,
           keyboardType: TextInputType.emailAddress,
           style: TextStyle(
             color: Colors.black
@@ -58,7 +68,7 @@ Widget buildEmail(){
     ],
   );
 }
-Widget buildPassword(){
+Widget buildPassword() {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
@@ -85,8 +95,9 @@ Widget buildPassword(){
             ]
         ),
         height: 60,
-        child: TextField(
-            obscureText: true,
+        child: TextFormField(
+            controller: _senha,
+            obscureText: true,        
             style: TextStyle(
                 color: Colors.black
             ),
@@ -101,7 +112,7 @@ Widget buildPassword(){
                 hintStyle: TextStyle(
                     color: Colors.black12
                 )
-            )
+            ),
         ),
       )
     ],
@@ -125,7 +136,7 @@ Widget buildForgotPassword(){
     ),
   );
 }
-Widget buildLogin(){
+Widget buildLogin(BuildContext context){
   return Container(
     padding: EdgeInsets.symmetric(vertical:30),
     width: double.infinity,
@@ -136,7 +147,21 @@ Widget buildLogin(){
           borderRadius: BorderRadius.circular(25)
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Future<http.Response> respostaAlunoBack = verificarUsuario(_email.text.toString(), _senha.text.toString(), context);
+        respostaAlunoBack.then((value) => {
+          if(value.statusCode ==200){
+            //Statuscode 200 deu bom
+            Navigator.push(context,MaterialPageRoute(builder: (context) => Home(user: value)))
+          } else if(value.statusCode == 400){
+            //StatusCode não achou ninguem
+            print("Email ou senha invalido!"),
+            _senha.clear(),
+            ScaffoldMessenger.of(context).showSnackBar(snackBar)
+          }
+        }
+        );
+      },
       child: Text(
         'LOGIN',
         style: TextStyle(
@@ -148,6 +173,52 @@ Widget buildLogin(){
     ),
   );
 }
+final snackBar = SnackBar(content: Text(
+  "email ou senha inválidos!",
+  textAlign: TextAlign.center,
+  ),
+  backgroundColor: Colors.redAccent,
+  duration: const Duration(seconds: 5),
+  
+  );
+  final snackBarEmailEmpty = SnackBar(content: Text(
+  "email vazio!",
+  textAlign: TextAlign.center,
+  ),
+  backgroundColor: Colors.yellowAccent,
+  duration: const Duration(seconds: 2),
+  
+  );
+    final snackBarSenhaEmpty = SnackBar(content: Text(
+  "SENHA vazia!",
+  textAlign: TextAlign.center,
+  ),
+  backgroundColor: Colors.yellowAccent,
+  duration: const Duration(seconds: 2),
+  
+  );
+
+
+  Future<http.Response> verificarUsuario(String email, String senha, BuildContext context) async{
+    if(senha.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(snackBarSenhaEmpty);
+      throw ErrorDescription("senha vazia!");
+    }
+    if(email.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(snackBarEmailEmpty);
+      throw ErrorDescription("email vazio!");
+    }
+    var respostaAlunoBack = await http.post(
+      Uri.parse('http://127.0.0.1:3000/login'),
+      body: {
+        'email' : email,
+        'senha' : senha
+      }
+    );
+     return respostaAlunoBack;
+  }
+
+
 
 Widget buildSingup(){
   return GestureDetector(
@@ -179,7 +250,6 @@ Widget buildSingup(){
 
 class _LoginPageState extends State<LoginPage>{
   @override
-
 
   Widget build(BuildContext context) {
    return Scaffold(
@@ -224,7 +294,7 @@ class _LoginPageState extends State<LoginPage>{
                    SizedBox(height: 30),
                    buildPassword(),
                    buildForgotPassword(),
-                   buildLogin(),
+                   buildLogin(context),
                    buildSingup(),
                  ],
                ),
@@ -233,6 +303,9 @@ class _LoginPageState extends State<LoginPage>{
          ],
        ),
      )
-   );
+    );
   }
+
 }
+
+

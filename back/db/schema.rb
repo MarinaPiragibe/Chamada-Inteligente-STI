@@ -21,6 +21,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_30_173650) do
   create_table "alunos", force: :cascade do |t|
     t.string "nome"
     t.integer "cpf"
+    t.string "email"
+    t.string "senha"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -14,6 +14,21 @@ class TurmasController < ApplicationController
     
   end
 
+  def home
+    @turmas = Turma.joins(aluno_pertence_turmas: :aluno).where("aluno_id = ?",params[:id])
+    lista_turmas = []
+    for i in @turmas do
+      lista_turmas.push(i)
+    end
+    if(lista_turmas != [])
+    render json: lista_turmas, :status => :ok
+    else
+      error = {
+        error: "Sem turma inscritas!"};
+      render :json => error, :status => :bad_request
+    end
+  end
+
   # GET /turmas/new
   def new
     @turma = Turma.new
