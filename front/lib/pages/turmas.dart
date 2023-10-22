@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:chamada_inteligente/utils/page-utils.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -17,29 +16,32 @@ class Turmas extends StatefulWidget {
   State<Turmas> createState() => _TurmasState();
 }
 
-Future<http.Response> GetTurmasInscritas(int id) async {
+Future<Map<String, dynamic>?> GetTurmasInscritas(int id) async {
   var response = await http.get(
     Uri.parse('http://127.0.0.1:3000/turmas/' + id.toString()),
   );
 
-  return response;
+  if (response.statusCode == 200) {
+    return jsonDecode(response.body) as Map<String, dynamic>?;
+  } else {
+    return null; // Trate o erro de acordo com suas necessidades
+  }
 }
 
 class _TurmasState extends State<Turmas> {
-  List<Widget> listaTurmas(List<dynamic>? turmas) {
+  List<Widget> listaTurmas(Map<String, dynamic>? turmas) {
     List<Widget> buttonsList = [];
 
-    if (turmas == null) {
-      return buttonsList; // Retorna uma lista vazia se 'turmas' for nulo
-    }
+    if (turmas != null && turmas.containsKey("dados")) {
+      var dados = turmas["dados"] as List<dynamic>;
 
-    for (var turma in turmas) {
-      if (turma != null && turma["cod_turma"] != null) {
+      for (var turma in dados) {
         buttonsList.add(
           Card(
             child: ListTile(
               title: Text(
-                turma["cod_turma"] as String,
+                turma["nome"]
+                    as String, // Suponha que a turma tenha um atributo "nome" do tipo String
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -59,17 +61,16 @@ class _TurmasState extends State<Turmas> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<http.Response>(
+    return FutureBuilder<Map<String, dynamic>?>(
       future: GetTurmasInscritas(jsonDecode(widget.user.body)[0]["id"]),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // Exibir um indicador de carregamento enquanto a Future está sendo resolvida.
+          return CircularProgressIndicator();
         } else if (snapshot.hasError) {
           return Text('Erro: ${snapshot.error}');
         } else {
           if (snapshot.hasData) {
-            List<dynamic>? respostaLista =
-                jsonDecode(snapshot.data!.body) as List?;
+            Map<String, dynamic>? respostaMap = snapshot.data;
 
             return Scaffold(
               appBar: AppBar(
@@ -77,10 +78,17 @@ class _TurmasState extends State<Turmas> {
               ),
               bottomNavigationBar:
                   PageUtils.buildBottomNavigationBar(context, widget.user),
-              body: ListView(children: listaTurmas(respostaLista)),
+              body: ListView(children: listaTurmas(respostaMap)),
             );
           } else {
-            return Text('Nenhum dado disponível.');
+            return Scaffold(
+              appBar: AppBar(
+                title: Text('Turmas'),
+              ),
+              body: Text("Nenhum dado disponível"),
+              bottomNavigationBar:
+                  PageUtils.buildBottomNavigationBar(context, widget.user),
+            );
           }
         }
       },

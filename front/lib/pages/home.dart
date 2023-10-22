@@ -27,15 +27,13 @@ class _HomeState extends State<Home> {
         GetTurmasInscritas(jsonDecode(widget.user.body)[0]["id"]);
     resposta.then((value) {
       List<dynamic> respostaLista = jsonDecode(value.body) as List;
+
       for (var i = 0; i < respostaLista.length; i++) {
         print(respostaLista[i]);
       }
     });
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Sua Aplicação'),
-        ),
         body: PageUtils.pages[PageUtils.selectedIndex],
         bottomNavigationBar:
             PageUtils.buildBottomNavigationBar(context, widget.user));
