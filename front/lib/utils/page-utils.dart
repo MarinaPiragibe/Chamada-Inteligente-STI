@@ -31,7 +31,7 @@ class PageUtils {
       selectedItemColor: Colors.blue,
       onTap: (int index) {
         selectedIndex = index;
-        final routes = ['/login', '/turmas', '/login'];
+        final routes = ['/home', '/turmas', '/login'];
         // Se o índice for 1 (Turmas), navegue para a rota 'turmas' com o parâmetro user
         print(routes[index]);
         Navigator.pushReplacementNamed(context, routes[index], arguments: user);
