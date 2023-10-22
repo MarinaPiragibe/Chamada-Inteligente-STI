@@ -68,20 +68,28 @@ class _TurmasState extends State<Turmas> {
           return Text('Erro: ${snapshot.error}');
         } else {
           if (snapshot.hasData) {
-            List<dynamic>? respostaLista =
-                jsonDecode(snapshot.data!.body) as List?;
+            final dynamic data = jsonDecode(snapshot.data!.body);
 
-            return Scaffold(
+            if (data is List) {
+              // É uma lista, você pode tratar como uma lista
+              List<dynamic> respostaLista = data;
+              return Scaffold(
+                appBar: AppBar(
+                  title: Text('Turmas'),
+                ),
+                bottomNavigationBar:
+                    PageUtils.buildBottomNavigationBar(context, widget.user),
+                body: ListView(children: listaTurmas(respostaLista)),
+              );
+            }
+          }
+          return Scaffold(
               appBar: AppBar(
                 title: Text('Turmas'),
               ),
               bottomNavigationBar:
                   PageUtils.buildBottomNavigationBar(context, widget.user),
-              body: ListView(children: listaTurmas(respostaLista)),
-            );
-          } else {
-            return Text('Nenhum dado disponível.');
-          }
+              body: Text('Nenhum dado disponível.'));
         }
       },
     );
