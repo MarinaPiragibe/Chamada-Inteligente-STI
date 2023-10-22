@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:chamada_inteligente/utils/page-utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -20,40 +21,6 @@ Future<http.Response> GetTurmasInscritas(int id) async {
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;
-
-  // Lista de telas correspondentes a cada item do menu
-  final List<Widget> _pages = [
-    const Placeholder(), // Tela Inicial
-    const Placeholder(), // Tela Minhas Turmas
-    const Placeholder(), // Tela Perfil
-  ];
-
-  Widget menuInferior() {
-    return BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Início',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Turmas',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue, // Cor do item selecionado
-        onTap: (int index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        });
-  }
-
   @override
   Widget build(BuildContext context) {
     Future<http.Response> resposta =
@@ -69,8 +36,7 @@ class _HomeState extends State<Home> {
         appBar: AppBar(
           title: Text('Sua Aplicação'),
         ),
-        body: _pages[
-            _selectedIndex], // Exibe a tela atual com base no índice selecionado
-        bottomNavigationBar: menuInferior());
+        body: PageUtils.pages[PageUtils.selectedIndex],
+        bottomNavigationBar: PageUtils.buildBottomNavigationBar(context));
   }
 }
