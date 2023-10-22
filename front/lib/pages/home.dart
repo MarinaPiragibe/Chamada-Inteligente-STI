@@ -37,6 +37,7 @@ class _HomeState extends State<Home> {
           title: Text('Sua Aplicação'),
         ),
         body: PageUtils.pages[PageUtils.selectedIndex],
-        bottomNavigationBar: PageUtils.buildBottomNavigationBar(context));
+        bottomNavigationBar:
+            PageUtils.buildBottomNavigationBar(context, widget.user));
   }
 }

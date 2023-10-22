@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class PageUtils {
   static int selectedIndex = 0;
@@ -9,7 +10,8 @@ class PageUtils {
     Center(child: Text("Perfil")),
   ];
 
-  static BottomNavigationBar buildBottomNavigationBar(BuildContext context) {
+  static BottomNavigationBar buildBottomNavigationBar(
+      BuildContext context, http.Response user) {
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
@@ -30,7 +32,9 @@ class PageUtils {
       onTap: (int index) {
         selectedIndex = index;
         final routes = ['/login', '/turmas', '/login'];
-        Navigator.pushReplacementNamed(context, routes[index]);
+        // Se o índice for 1 (Turmas), navegue para a rota 'turmas' com o parâmetro user
+        print(routes[index]);
+        Navigator.pushReplacementNamed(context, routes[index], arguments: user);
       },
     );
   }
