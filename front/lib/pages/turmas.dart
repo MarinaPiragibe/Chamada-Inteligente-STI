@@ -17,6 +17,21 @@ class Turmas extends StatefulWidget {
   State<Turmas> createState() => _TurmasState();
 }
 
+Future<http.Response> GetProfessor(int id) async{
+  var response = await http.get(
+    Uri.parse('http://127.0.0.1:3000/professors/' + id.toString()),
+  );
+  return response;
+}
+
+
+Future<http.Response> GetDisciplina(int id) async{
+  var response = await http.get(
+    Uri.parse('http://127.0.0.1:3000/disciplinas/' + id.toString()),
+  );
+  return response;
+}
+
 Future<http.Response> GetTurmasInscritas(int id) async {
   var response = await http.get(
     Uri.parse('http://127.0.0.1:3000/turmas/' + id.toString()),

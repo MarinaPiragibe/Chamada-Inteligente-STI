@@ -7,7 +7,15 @@ class ProfessorsController < ApplicationController
   end
 
   # GET /professors/1 or /professors/1.json
-  def show
+  def getProfessor
+    @professor = Professor.where(id:params[:id])
+    if(@professor != [])
+    render json: @professor, :status => :ok
+    else
+      error = {
+        error: "Erro na recuperação do professor!"};
+      render :json => error, :status => :bad_request
+    end
   end
 
   # GET /professors/new
