@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:chamada_inteligente/utils/card-utils.dart';
 import 'package:chamada_inteligente/utils/page-utils.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -17,15 +18,14 @@ class Turmas extends StatefulWidget {
   State<Turmas> createState() => _TurmasState();
 }
 
-Future<http.Response> GetProfessor(int id) async{
+Future<http.Response> GetProfessor(int id) async {
   var response = await http.get(
     Uri.parse('http://127.0.0.1:3000/professors/' + id.toString()),
   );
   return response;
 }
 
-
-Future<http.Response> GetDisciplina(int id) async{
+Future<http.Response> GetDisciplina(int id) async {
   var response = await http.get(
     Uri.parse('http://127.0.0.1:3000/disciplinas/' + id.toString()),
   );
@@ -50,22 +50,10 @@ class _TurmasState extends State<Turmas> {
 
     for (var turma in turmas) {
       if (turma != null && turma["cod_turma"] != null) {
-        buttonsList.add(
-          Card(
-            child: ListTile(
-              title: Text(
-                turma["cod_turma"] as String,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onTap: () {
-                // Faça algo quando o item da lista for clicado
-              },
-            ),
-          ),
-        );
+        buttonsList.add(cardExpandido(
+          titulo: turma["cod_turma"].toString(),
+          descricao: "teste",
+        ));
       }
     }
 
@@ -88,6 +76,15 @@ class _TurmasState extends State<Turmas> {
             if (data is List) {
               // É uma lista, você pode tratar como uma lista
               List<dynamic> respostaLista = data;
+              for (var i = 0; i < respostaLista.length; i++) {
+                print(respostaLista[i]["professors_id"]);
+                Future<http.Response> professor =
+                    GetProfessor(respostaLista[i]["professors_id"]);
+                print(professor.then((value) => print(value.body)));
+                Future<http.Response> disciplinas =
+                    GetDisciplina(respostaLista[i]["disciplinas_id"]);
+                print(disciplinas.then((value) => print(value.body)));
+              }
               return Scaffold(
                 appBar: AppBar(
                   title: Text('Turmas'),
