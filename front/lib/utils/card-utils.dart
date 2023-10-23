@@ -12,6 +12,7 @@ class cardExpandido extends StatelessWidget {
     return Card(
       margin: EdgeInsets.all(8.0),
       child: ExpansionTile(
+        textColor: Theme.of(context).primaryColor,
         title: Text(
           titulo,
           style: const TextStyle(

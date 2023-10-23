@@ -28,7 +28,7 @@ class PageUtils {
         ),
       ],
       currentIndex: selectedIndex,
-      selectedItemColor: Colors.blue,
+      selectedItemColor: Theme.of(context).primaryColor,
       onTap: (int index) {
         selectedIndex = index;
         final routes = ['/home', '/turmas', '/login'];

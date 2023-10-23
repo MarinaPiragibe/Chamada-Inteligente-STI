@@ -13,77 +13,93 @@ class LoginPage extends StatefulWidget {
 
 final _email = TextEditingController();
 final _senha = TextEditingController();
-Widget buildEmail() {
+Widget buildEmail(context) {
   return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: <Widget>[
-      Text(
-        'Email',
-        style: TextStyle(
-            color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
-      ),
-      SizedBox(
-        height: 10,
-      ),
-      Container(
-        alignment: Alignment.centerLeft,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black45, blurRadius: 5, offset: Offset(0, 2))
-            ]),
-        height: 60,
-        child: TextField(
-            controller: _email,
-            keyboardType: TextInputType.emailAddress,
-            style: TextStyle(color: Colors.black),
-            decoration: InputDecoration(
-                border: InputBorder.none,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Email',
+          style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Container(
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            height: 60,
+            child: TextFormField(
+              controller: _email,
+              keyboardType: TextInputType.emailAddress,
+              style: TextStyle(color: Colors.black),
+              decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).primaryColor,
+                      width:
+                          2.0), // Cor e espessura da borda quando o TextField estiver selecionado
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).hintColor,
+                      width:
+                          1.0), // Cor e espessura da borda quando o TextField estiver desativado
+                ),
                 contentPadding: EdgeInsets.only(top: 12),
-                prefixIcon: Icon(Icons.email, color: Color(0xff0c3b6a)),
+                prefixIcon:
+                    Icon(Icons.email, color: Theme.of(context).primaryColor),
                 hintText: 'Email',
-                hintStyle: TextStyle(color: Colors.black12))),
-      )
-    ],
-  );
+                hintStyle: TextStyle(color: Colors.black12),
+              ),
+            ))
+      ]);
 }
 
-Widget buildPassword() {
+Widget buildPassword(BuildContext context) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: <Widget>[
       Text(
         'Senha',
-        style: TextStyle(
-            color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
       ),
       SizedBox(
         height: 10,
       ),
       Container(
-        alignment: Alignment.centerLeft,
-        decoration: BoxDecoration(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black45, blurRadius: 5, offset: Offset(0, 2))
-            ]),
-        height: 60,
-        child: TextFormField(
-          controller: _senha,
-          obscureText: true,
-          style: TextStyle(color: Colors.black),
-          decoration: InputDecoration(
-              border: InputBorder.none,
+          ),
+          height: 60,
+          child: TextFormField(
+            controller: _senha,
+            obscureText: true,
+            style: TextStyle(color: Colors.black),
+            decoration: InputDecoration(
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(context).primaryColor,
+                    width:
+                        2.0), // Cor e espessura da borda quando o TextField estiver selecionado
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                    color: Theme.of(context).hintColor,
+                    width:
+                        1.0), // Cor e espessura da borda quando o TextField estiver desativado
+              ),
               contentPadding: EdgeInsets.only(top: 12),
-              prefixIcon: Icon(Icons.key, color: Color(0xff0c3b6a)),
+              prefixIcon:
+                  Icon(Icons.key, color: Theme.of(context).primaryColor),
               hintText: 'Senha',
-              hintStyle: TextStyle(color: Colors.black12)),
-        ),
-      )
+              hintStyle: TextStyle(color: Colors.black12),
+            ),
+          ))
     ],
   );
 }
@@ -95,7 +111,6 @@ Widget buildForgotPassword() {
       children: [
         TextButton(
           style: TextButton.styleFrom(
-            foregroundColor: Colors.white,
             padding: const EdgeInsets.all(0),
             textStyle: const TextStyle(fontSize: 10),
           ),
@@ -114,6 +129,7 @@ Widget buildLogin(BuildContext context) {
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.all(15),
+        backgroundColor: Theme.of(context).primaryColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       ),
       onPressed: () {
@@ -140,7 +156,6 @@ Widget buildLogin(BuildContext context) {
       child: Text(
         'LOGIN',
         style: TextStyle(
-          color: Color(0xffa3deF8),
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
@@ -162,7 +177,7 @@ final snackBarEmailEmpty = SnackBar(
     "email vazio!",
     textAlign: TextAlign.center,
   ),
-  backgroundColor: Colors.yellowAccent,
+  backgroundColor: Color.fromARGB(255, 216, 80, 1),
   duration: const Duration(seconds: 2),
 );
 final snackBarSenhaEmpty = SnackBar(
@@ -170,7 +185,7 @@ final snackBarSenhaEmpty = SnackBar(
     "SENHA vazia!",
     textAlign: TextAlign.center,
   ),
-  backgroundColor: Colors.yellowAccent,
+  backgroundColor: Color.fromARGB(255, 216, 80, 1),
   duration: const Duration(seconds: 2),
 );
 
@@ -197,14 +212,10 @@ Widget buildSingup() {
       text: TextSpan(children: [
         TextSpan(
             text: "Nao possui uma conta? ",
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.w500)),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
         TextSpan(
-            text: " Cadastre-se",
-            style: TextStyle(
-                color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold))
+          text: " Cadastre-se",
+        )
       ]),
     ),
   );
@@ -221,16 +232,6 @@ class _LoginPageState extends State<LoginPage> {
           Container(
             height: double.infinity,
             width: double.infinity,
-            decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                  Color(0x660c3b6a),
-                  Color(0x990c3b6a),
-                  Color(0xcc0c3b6a),
-                  Color(0xff0c3b6a),
-                ])),
             child: SingleChildScrollView(
               physics: AlwaysScrollableScrollPhysics(),
               padding: EdgeInsets.symmetric(horizontal: 25, vertical: 120),
@@ -240,15 +241,14 @@ class _LoginPageState extends State<LoginPage> {
                   Text(
                     'Sing In',
                     style: TextStyle(
-                      color: Colors.white,
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(height: 50),
-                  buildEmail(),
+                  buildEmail(context),
                   SizedBox(height: 30),
-                  buildPassword(),
+                  buildPassword(context),
                   buildForgotPassword(),
                   buildLogin(context),
                   buildSingup(),
