@@ -4,6 +4,8 @@ import 'package:chamada_inteligente/utils/card-utils.dart';
 import 'package:chamada_inteligente/utils/page-utils.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:chamada_inteligente/models/disciplina.dart';
+import 'package:http/http.dart';
 
 class Turmas extends StatefulWidget {
   final http.Response user;
@@ -25,12 +27,6 @@ Future<http.Response> GetProfessor(int id) async {
   return response;
 }
 
-Future<http.Response> GetDisciplina(int id) async {
-  var response = await http.get(
-    Uri.parse('http://127.0.0.1:3000/disciplinas/' + id.toString()),
-  );
-  return response;
-}
 
 Future<http.Response> GetTurmasInscritas(int id) async {
   var response = await http.get(
@@ -49,16 +45,22 @@ class _TurmasState extends State<Turmas> {
     }
 
     for (var turma in turmas) {
+      Future disc = Disciplina.GetDisciplina(turma["disciplinas_id"]);
+      
+
       if (turma != null && turma["cod_turma"] != null) {
         buttonsList.add(cardExpandido(
           titulo: turma["cod_turma"].toString(),
-          descricao: "teste",
+
+          descricao:"Descrição da turma em breve",
         ));
       }
     }
 
     return buttonsList;
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,13 +79,13 @@ class _TurmasState extends State<Turmas> {
               // É uma lista, você pode tratar como uma lista
               List<dynamic> respostaLista = data;
               for (var i = 0; i < respostaLista.length; i++) {
-                print(respostaLista[i]["professors_id"]);
+                // print(respostaLista[i]["professors_id"]);
                 Future<http.Response> professor =
                     GetProfessor(respostaLista[i]["professors_id"]);
-                print(professor.then((value) => print(value.body)));
-                Future<http.Response> disciplinas =
-                    GetDisciplina(respostaLista[i]["disciplinas_id"]);
-                print(disciplinas.then((value) => print(value.body)));
+                // print(professor.then((value) => print(value.body)));
+
+                 
+               
               }
               return Scaffold(
                 appBar: AppBar(
