@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:chamada_inteligente/utils/card-utils.dart';
 import 'package:chamada_inteligente/utils/page-utils.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:chamada_inteligente/models/disciplina.dart';
-import 'package:http/http.dart';
 
 class Turmas extends StatefulWidget {
   final http.Response user;
@@ -27,7 +25,6 @@ Future<http.Response> GetProfessor(int id) async {
   return response;
 }
 
-
 Future<http.Response> GetTurmasInscritas(int id) async {
   var response = await http.get(
     Uri.parse('http://127.0.0.1:3000/turmas/' + id.toString()),
@@ -46,21 +43,17 @@ class _TurmasState extends State<Turmas> {
 
     for (var turma in turmas) {
       Future disc = Disciplina.GetDisciplina(turma["disciplinas_id"]);
-      
 
       if (turma != null && turma["cod_turma"] != null) {
         buttonsList.add(cardExpandido(
           titulo: turma["cod_turma"].toString(),
-
-          descricao:"Descrição da turma em breve",
+          descricao: "Descrição da turma em breve",
         ));
       }
     }
 
     return buttonsList;
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +76,6 @@ class _TurmasState extends State<Turmas> {
                 Future<http.Response> professor =
                     GetProfessor(respostaLista[i]["professors_id"]);
                 // print(professor.then((value) => print(value.body)));
-
-                 
-               
               }
               return Scaffold(
                 appBar: AppBar(

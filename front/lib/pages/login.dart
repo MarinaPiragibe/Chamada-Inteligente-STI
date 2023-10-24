@@ -21,9 +21,6 @@ Widget buildEmail(context) {
           'Email',
           style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
         ),
-        SizedBox(
-          height: 10,
-        ),
         Container(
             alignment: Alignment.centerLeft,
             decoration: BoxDecoration(
@@ -65,9 +62,6 @@ Widget buildPassword(BuildContext context) {
       Text(
         'Senha',
         style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-      ),
-      SizedBox(
-        height: 10,
       ),
       Container(
           alignment: Alignment.centerLeft,
@@ -124,7 +118,7 @@ Widget buildForgotPassword() {
 
 Widget buildLogin(BuildContext context) {
   return Container(
-    padding: EdgeInsets.symmetric(vertical: 30),
+    padding: EdgeInsets.symmetric(vertical: 10),
     width: double.infinity,
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -234,10 +228,15 @@ class _LoginPageState extends State<LoginPage> {
             width: double.infinity,
             child: SingleChildScrollView(
               physics: AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 120),
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 40),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Image.asset(
+                    'images/logo.png', // Substitua 'seu_logo.png' pelo caminho da imagem
+                    width: 150, // Defina a largura desejada
+                    height: 150, // Defina a altura desejada
+                  ),
                   Text(
                     'Sing In',
                     style: TextStyle(
@@ -245,11 +244,12 @@ class _LoginPageState extends State<LoginPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 50),
                   buildEmail(context),
-                  SizedBox(height: 30),
                   buildPassword(context),
                   buildForgotPassword(),
+                  SizedBox(
+                    height: 10,
+                  ),
                   buildLogin(context),
                   buildSingup(),
                 ],
