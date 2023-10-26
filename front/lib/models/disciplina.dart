@@ -20,12 +20,25 @@ class Disciplina {
       Uri.parse('http://127.0.0.1:3000/disciplinas/' + id.toString()),
     );
 
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      late Disciplina disc = Disciplina.fromJson(data[0]);
-      print(disc.nome);
-    }
+
 
     return response;
+  }
+
+  static Future<Disciplina?> getDisciplinas(int id) async{
+    try
+    {
+       var response = await http.get(
+      Uri.parse('http://127.0.0.1:3000/disciplinas/' + id.toString()),
+    );
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      Disciplina disc = Disciplina.fromJson(data[0]);
+      return disc;
+    }
+    } catch(e){
+      print(e.toString());
+    }
   }
 }

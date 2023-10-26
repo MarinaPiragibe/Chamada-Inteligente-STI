@@ -1,9 +1,14 @@
 import 'dart:convert';
+import 'package:chamada_inteligente/models/professors.dart';
+import 'package:chamada_inteligente/models/turma.dart';
 import 'package:chamada_inteligente/utils/card-utils.dart';
 import 'package:chamada_inteligente/utils/page-utils.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:chamada_inteligente/models/disciplina.dart';
+import 'package:intl/intl.dart';
+
+
 
 class Turmas extends StatefulWidget {
   final http.Response user;
@@ -18,84 +23,119 @@ class Turmas extends StatefulWidget {
   State<Turmas> createState() => _TurmasState();
 }
 
-Future<http.Response> GetProfessor(int id) async {
-  var response = await http.get(
-    Uri.parse('http://127.0.0.1:3000/professors/' + id.toString()),
-  );
-  return response;
-}
-
-Future<http.Response> GetTurmasInscritas(int id) async {
-  var response = await http.get(
-    Uri.parse('http://127.0.0.1:3000/turmas/' + id.toString()),
-  );
-
-  return response;
-}
 
 class _TurmasState extends State<Turmas> {
-  List<Widget> listaTurmas(List<dynamic>? turmas) {
+  //inicializando dados
+   List<Disciplina>? disciplinas = [];
+   Disciplina? disc;
+   Professor? prof;
+   List<Turma>? turmas = [];
+   List<Professor>? professores = [];
+   DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+   @override
+  void initState() {
+    super.initState();
+    _PegarDados();
+  }
+  //Pegando turmas, disciplinas e professores
+  void _PegarDados() async {
+    int id_user = jsonDecode(widget.user.body)[0]["id"];
+    turmas =(await Turma.getTurmas(id_user))!;
+
+     for(int i =0;i < turmas!.length; i++ ){
+      disc = await Disciplina.getDisciplinas(turmas![i].disciplinas_id);
+      disciplinas!.add(disc!);
+      prof = await Professor.getProfessor(turmas![i].professors_id);
+      professores!.add(prof!);
+  
+      
+    }
+   
+    setState(() {
+      disciplinas = disciplinas;
+      turmas = turmas;
+      professores = professores;
+    });
+    
+  }
+  
+
+  List<Widget> listagemTurmas(List<Turma>? turmas, List<Disciplina>? disciplinas, List<Professor>? professores) {
     List<Widget> buttonsList = [];
 
     if (turmas == null) {
       return buttonsList; // Retorna uma lista vazia se 'turmas' for nulo
     }
 
-    for (var turma in turmas) {
-      Future disc = Disciplina.GetDisciplina(turma["disciplinas_id"]);
+    for (var i =0; i < turmas.length ;i++) {
+      
 
-      if (turma != null && turma["cod_turma"] != null) {
         buttonsList.add(cardExpandido(
-          titulo: turma["cod_turma"].toString(),
-          descricao: "Descrição da turma em breve",
+          titulo: turmas[i].cod_turma.toString() + " - " + disciplinas![i].nome,
+          descricao:"Disciplina:" + disciplinas![i].nome + "\nProfessor: " + professores![i].nome + "\n"
+          + "Horario de inicio:" + turmas[i].hora_inicio + " até as:" + " 16:00"
+          ,
         ));
-      }
+      
     }
+    
 
     return buttonsList;
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<http.Response>(
-      future: GetTurmasInscritas(jsonDecode(widget.user.body)[0]["id"]),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator(); // Exibir um indicador de carregamento enquanto a Future está sendo resolvida.
-        } else if (snapshot.hasError) {
-          return Text('Erro: ${snapshot.error}');
-        } else {
-          if (snapshot.hasData) {
-            final dynamic data = jsonDecode(snapshot.data!.body);
+  
+    // return FutureBuilder<http.Response>(
+    //   future: GetTurmasInscritas(jsonDecode(widget.user.body)[0]["id"]),
+    //   builder: (context, snapshot) {
+    //     if (snapshot.connectionState == ConnectionState.waiting) {
+    //       return CircularProgressIndicator(); // Exibir um indicador de carregamento enquanto a Future está sendo resolvida.
+    //     } else if (snapshot.hasError) {
+    //       return Text('Erro: ${snapshot.error}');
+    //     } else {
+    //       if (snapshot.hasData) {
+    //         final dynamic data = jsonDecode(snapshot.data!.body);
 
-            if (data is List) {
-              // É uma lista, você pode tratar como uma lista
-              List<dynamic> respostaLista = data;
-              for (var i = 0; i < respostaLista.length; i++) {
-                // print(respostaLista[i]["professors_id"]);
-                Future<http.Response> professor =
-                    GetProfessor(respostaLista[i]["professors_id"]);
-                // print(professor.then((value) => print(value.body)));
-              }
-              return Scaffold(
-                appBar: AppBar(
-                  title: Text('Turmas'),
-                ),
-                bottomNavigationBar:
-                    PageUtils.buildBottomNavigationBar(context, widget.user),
-                body: ListView(children: listaTurmas(respostaLista)),
-              );
-            }
-          }
-          return Scaffold(
+    //         if (data is List) {
+    //           // É uma lista, você pode tratar como uma lista
+    //           List<dynamic> respostaLista = data;
+            
+    //           return Scaffold(
+    //             appBar: AppBar(
+    //               title: Text('Turmas'),
+    //             ),
+                // bottomNavigationBar:
+                //     PageUtils.buildBottomNavigationBar(context, widget.user),
+    //             body: ListView(children: listaTurmas(respostaLista)),
+    //           );
+    //         }
+    //       }
+    //       return Scaffold(
+    //           appBar: AppBar(
+    //             title: Text('Turmas'),
+    //           ),
+    //           bottomNavigationBar:
+    //               PageUtils.buildBottomNavigationBar(context, widget.user),
+    //           body: Text('Nenhum dado disponível.'));
+    //     }
+    //   },
+    // );
+    return Scaffold(
               appBar: AppBar(
                 title: Text('Turmas'),
+                
               ),
-              bottomNavigationBar:
-                  PageUtils.buildBottomNavigationBar(context, widget.user),
-              body: Text('Nenhum dado disponível.'));
-        }
-      },
+              body: turmas == []  || turmas!.isEmpty ?
+              const Center(
+                child: CircularProgressIndicator(),
+              )
+              :
+              
+              ListView(children: listagemTurmas(turmas!, disciplinas!, professores!),),
+               bottomNavigationBar:
+                    PageUtils.buildBottomNavigationBar(context, widget.user),
+
     );
   }
 }
