@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:chamada_inteligente/models/aluno.dart';
 import 'package:chamada_inteligente/models/professors.dart';
 import 'package:chamada_inteligente/models/turma.dart';
 import 'package:chamada_inteligente/utils/card-utils.dart';
@@ -11,12 +12,12 @@ import 'package:intl/intl.dart';
 
 
 class Turmas extends StatefulWidget {
-  final http.Response user;
+  final Aluno user;
 
   const Turmas({Key? key, required this.user}) : super(key: key);
 
   Turmas.empty({Key? key})
-      : user = http.Response('', 200),
+      : user = Aluno(id: 0 ,nome: '', cpf: (0).toString(), email: ''),
         super(key: key);
 
   @override
@@ -39,8 +40,7 @@ class _TurmasState extends State<Turmas> {
   }
   //Pegando turmas, disciplinas e professores
   void _PegarDados() async {
-    int id_user = jsonDecode(widget.user.body)[0]["id"];
-    turmas =(await Turma.getTurmas(id_user))!;
+    turmas =(await Turma.getTurmas(widget.user.id))!;
 
      for(int i =0;i < turmas!.length; i++ ){
       disc = await Disciplina.getDisciplinas(turmas![i].disciplinas_id);
@@ -86,53 +86,21 @@ class _TurmasState extends State<Turmas> {
   @override
   Widget build(BuildContext context) {
   
-    // return FutureBuilder<http.Response>(
-    //   future: GetTurmasInscritas(jsonDecode(widget.user.body)[0]["id"]),
-    //   builder: (context, snapshot) {
-    //     if (snapshot.connectionState == ConnectionState.waiting) {
-    //       return CircularProgressIndicator(); // Exibir um indicador de carregamento enquanto a Future está sendo resolvida.
-    //     } else if (snapshot.hasError) {
-    //       return Text('Erro: ${snapshot.error}');
-    //     } else {
-    //       if (snapshot.hasData) {
-    //         final dynamic data = jsonDecode(snapshot.data!.body);
-
-    //         if (data is List) {
-    //           // É uma lista, você pode tratar como uma lista
-    //           List<dynamic> respostaLista = data;
-            
-    //           return Scaffold(
-    //             appBar: AppBar(
-    //               title: Text('Turmas'),
-    //             ),
-                // bottomNavigationBar:
-                //     PageUtils.buildBottomNavigationBar(context, widget.user),
-    //             body: ListView(children: listaTurmas(respostaLista)),
-    //           );
-    //         }
-    //       }
-    //       return Scaffold(
-    //           appBar: AppBar(
-    //             title: Text('Turmas'),
-    //           ),
-    //           bottomNavigationBar:
-    //               PageUtils.buildBottomNavigationBar(context, widget.user),
-    //           body: Text('Nenhum dado disponível.'));
-    //     }
-    //   },
-    // );
     return Scaffold(
               appBar: AppBar(
                 title: Text('Turmas'),
                 
               ),
-              body: turmas == []  || turmas!.isEmpty ?
+              body: turmas == []  ?
               const Center(
                 child: CircularProgressIndicator(),
               )
               :
               
-              ListView(children: listagemTurmas(turmas!, disciplinas!, professores!),),
+              ListView(children: listagemTurmas(turmas!,
+               disciplinas!,
+                professores!),
+                ),
                bottomNavigationBar:
                     PageUtils.buildBottomNavigationBar(context, widget.user),
 

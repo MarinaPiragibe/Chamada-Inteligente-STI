@@ -1,3 +1,4 @@
+import 'package:chamada_inteligente/models/aluno.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -11,7 +12,7 @@ class PageUtils {
   ];
 
   static BottomNavigationBar buildBottomNavigationBar(
-      BuildContext context, http.Response user) {
+      BuildContext context, Aluno user) {
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(

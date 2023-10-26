@@ -1,10 +1,11 @@
 import 'dart:convert';
+import 'package:chamada_inteligente/models/aluno.dart';
 import 'package:chamada_inteligente/utils/page-utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
-  final http.Response user;
+  final Aluno user;
 
   const Home({Key? key, required this.user}) : super(key: key);
 

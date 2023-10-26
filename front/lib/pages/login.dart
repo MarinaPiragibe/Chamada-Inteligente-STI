@@ -1,3 +1,4 @@
+import 'package:chamada_inteligente/models/aluno.dart';
 import 'package:chamada_inteligente/pages/home.dart';
 import 'package:http/http.dart' as http;
 
@@ -126,26 +127,18 @@ Widget buildLogin(BuildContext context) {
         backgroundColor: Theme.of(context).primaryColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       ),
-      onPressed: () {
-        Future<http.Response> respostaAlunoBack = verificarUsuario(
-            _email.text.toString(), _senha.text.toString(), context);
-        respostaAlunoBack.then((value) => {
-              if (value.statusCode == 200)
-                {
-                  //Statuscode 200 deu bom
-                  Navigator.push(
+      onPressed: () async {
+        verificarUsuario(_email.text.toString(), _senha.text.toString(), context);
+        Aluno? aluno = await Aluno.verificarAluno(_email.text.toString(), _senha.text.toString());
+        if(aluno != null){
+           Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Home(user: value)))
-                }
-              else if (value.statusCode == 400)
-                {
-                  //StatusCode não achou ninguem
-                  print("Email ou senha invalido!"),
-                  _senha.clear(),
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar)
-                }
-            });
+                          builder: (context) => Home(user: aluno)));
+        } else
+        ScaffoldMessenger.of(context).showSnackBar(snackBarErroLogin);
+        _senha.clear();
+
       },
       child: Text(
         'LOGIN',
@@ -158,7 +151,7 @@ Widget buildLogin(BuildContext context) {
   );
 }
 
-final snackBar = SnackBar(
+final snackBarErroLogin = SnackBar(
   content: Text(
     "email ou senha inválidos!",
     textAlign: TextAlign.center,
@@ -176,27 +169,24 @@ final snackBarEmailEmpty = SnackBar(
 );
 final snackBarSenhaEmpty = SnackBar(
   content: Text(
-    "SENHA vazia!",
+    "senha vazia!",
     textAlign: TextAlign.center,
   ),
   backgroundColor: Color.fromARGB(255, 216, 80, 1),
   duration: const Duration(seconds: 2),
 );
 
-Future<http.Response> verificarUsuario(
-    String email, String senha, BuildContext context) async {
+void verificarUsuario(String email, String senha, BuildContext context)  {
+    if (email.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(snackBarEmailEmpty);
+    throw ErrorDescription("email vazio!");
+  }
   if (senha.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(snackBarSenhaEmpty);
     throw ErrorDescription("senha vazia!");
   }
-  if (email.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(snackBarEmailEmpty);
-    throw ErrorDescription("email vazio!");
-  }
-  var respostaAlunoBack = await http.post(
-      Uri.parse('http://127.0.0.1:3000/login'),
-      body: {'email': email, 'senha': senha});
-  return respostaAlunoBack;
+
+
 }
 
 Widget buildSingup() {

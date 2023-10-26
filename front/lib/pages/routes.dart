@@ -1,3 +1,4 @@
+import 'package:chamada_inteligente/models/aluno.dart';
 import 'package:chamada_inteligente/pages/home.dart';
 import 'package:chamada_inteligente/pages/login.dart';
 import 'package:chamada_inteligente/pages/turmas.dart';
@@ -12,11 +13,11 @@ class Routes {
   static Map<String, Widget Function(BuildContext)> routes = {
     Routes.login: (context) => const LoginPage(),
     Routes.turmas: (context) {
-      final user = ModalRoute.of(context)!.settings.arguments as http.Response;
+      final user = ModalRoute.of(context)!.settings.arguments as Aluno;
       return Turmas(user: user);
     },
     Routes.home: (context) {
-      final user = ModalRoute.of(context)!.settings.arguments as http.Response;
+      final user = ModalRoute.of(context)!.settings.arguments as Aluno;
       return Home(user: user);
     },
   };
