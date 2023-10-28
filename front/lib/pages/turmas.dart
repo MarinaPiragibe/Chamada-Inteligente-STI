@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:chamada_inteligente/models/aluno.dart';
+import 'package:chamada_inteligente/models/chamada.dart';
 import 'package:chamada_inteligente/models/professors.dart';
 import 'package:chamada_inteligente/models/turma.dart';
 import 'package:chamada_inteligente/utils/card-horizontal.dart';
@@ -30,7 +31,9 @@ class _TurmasState extends State<Turmas> {
   Professor? prof;
   List<Turma>? turmas = [];
   List<Professor>? professores = [];
-  DateFormat dateFormat = DateFormat("yyyy-MM-dd HH:mm:ss");
+
+  List<Chamada> chamadas_ativas = [];
+  final String diaSemana = DateFormat(DateFormat.WEEKDAY, 'pt_Br').format(DateTime.now());
   @override
   void initState() {
     super.initState();
@@ -55,10 +58,9 @@ class _TurmasState extends State<Turmas> {
     });
   }
 
-  List<Map<String, String>> listagemTurmas(List<Turma>? turmas,
-      List<Disciplina>? disciplinas, List<Professor>? professores) {
+  List<Map<String, String>> listagemTurmas(List<Turma>? turmas,List<Disciplina>? disciplinas, List<Professor>? professores) {
     List<Map<String, String>> lista = [];
-
+    
     if (turmas == null) {
       return lista; // Retorna uma lista vazia se 'turmas' for nulo
     }
@@ -66,14 +68,21 @@ class _TurmasState extends State<Turmas> {
     for (var i = 0; i < turmas.length; i++) {
       lista.add({
         'titulo': '${turmas[i].cod_turma} - ${disciplinas![i].nome}',
-        'descricao': 'Disciplina: ${disciplinas![i].nome}\n'
+        'descricao': 'Disciplina: ${disciplinas[i].nome}\n'
             'Professor: ${professores![i].nome}\n'
-            'Horario de inicio: ${turmas[i].hora_inicio} até as 16:00',
+            'Dias da aula: ${turmas[i].dias} \n'
+            'Horario de inicio: ${turmas[i].hora_inicio} até as ${turmas[i].hora_fim}',
       });
     }
 
     return lista;
   }
+
+  //Se estiver no horario chama a funcao de marcarPresenca
+  //  if(int.parse(turmas[i].hora_inicio) <= DateTime.now().hour &&  DateTime.now().hour < int.parse(turmas[i].hora_fim)){ print("Está no horario da chamada");
+    // chamadas_ativas.add(Chamada(id: i,aluno: widget.user, turma: turmas![i], professor: professores![i]));
+    //   Chamada.marcarPresenca(chamadas_ativas[0], DateTime.now(), DateTime.now());
+  //     }
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +96,7 @@ class _TurmasState extends State<Turmas> {
             )
           : HorizontalCardList(
               cardDataList: listagemTurmas(turmas!, disciplinas!, professores!),
-            ),
+            ),          
       bottomNavigationBar:
           PageUtils.buildBottomNavigationBar(context, widget.user),
     );

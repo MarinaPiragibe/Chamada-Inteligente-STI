@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+final String BaseUrl = 'http://127.0.0.1:3000';
 
 class Disciplina {
   Disciplina(
@@ -17,7 +18,7 @@ class Disciplina {
 
   static Future GetDisciplina(int id) async {
     http.Response response = await http.get(
-      Uri.parse('http://127.0.0.1:3000/disciplinas/' + id.toString()),
+      Uri.parse('$BaseUrl/disciplinas/' + id.toString()),
     );
 
 

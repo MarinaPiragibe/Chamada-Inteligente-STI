@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:chamada_inteligente/pages/routes.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(MaterialApp(
+    localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate
+      ],
+    supportedLocales: [const Locale('pt', 'BR')],
     title: "Chamada Inteligente",
     debugShowCheckedModeBanner: false,
     routes: Routes.routes,

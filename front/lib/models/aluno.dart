@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+final String BaseUrl = 'http://127.0.0.1:3000';
 class Aluno {
   Aluno(
       {required this.id,
@@ -35,7 +36,7 @@ class Aluno {
     {
       
       var response = await http.post(
-      Uri.parse('http://127.0.0.1:3000/login'),
+      Uri.parse('$BaseUrl/login'),
       body: {'email': email, 'senha': senha});
 
     if (response.statusCode == 200) {
