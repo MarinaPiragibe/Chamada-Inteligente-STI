@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get "/turmas/:id", to: "turmas#home"
   get "/alunos", to: "alunos#index"
   post "/login", to: "alunos#login"
+  post "/presenca", to: "chamadas#marcarPresenca"
+  get "/presencas", to: "chamadas#show"
 
   resources :alunos
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
