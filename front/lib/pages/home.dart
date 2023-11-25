@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
       body: HorizontalCardList(
           cardDataList: lista), // Usando o novo widget para a lista de cartões
       bottomNavigationBar:
-          PageUtils.buildBottomNavigationBar(context, widget.user),
+          widget.user is Aluno ? PageUtils.buildBottomNavigationBarAluno(context, widget.user) : PageUtils.buildBottomNavigationBarProfessor(context, widget.user),
     );
   }
 }

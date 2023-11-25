@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   #chamada - API
   post "/presenca", to: "chamadas#marcarPresenca"
+  get "/verificarChamadasAluno/:id", to: "chamadas#verificarChamadasAluno"
 
   #professor - API
   get "/professor/:id", to: "professors#getProfessor"

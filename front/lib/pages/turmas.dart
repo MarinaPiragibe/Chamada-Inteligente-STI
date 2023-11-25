@@ -98,7 +98,7 @@ class _TurmasState extends State<Turmas> {
               cardDataList: listagemTurmas(turmas!, disciplinas!, professores!),
             ),          
       bottomNavigationBar:
-          PageUtils.buildBottomNavigationBar(context, widget.user),
+          PageUtils.buildBottomNavigationBarAluno(context, widget.user),
     );
   }
 }
