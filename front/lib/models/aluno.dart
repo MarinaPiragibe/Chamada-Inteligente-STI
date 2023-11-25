@@ -30,11 +30,10 @@ class Aluno {
   }
 
 
-  
-     static Future<Aluno?> verificarAluno(String email, String senha) async{
+//Login aluno
+static Future<Aluno?> verificarAluno(String email, String senha) async{
     try
-    {
-      
+    { 
       var response = await http.post(
       Uri.parse('$BaseUrl/login'),
       body: {'email': email, 'senha': senha});

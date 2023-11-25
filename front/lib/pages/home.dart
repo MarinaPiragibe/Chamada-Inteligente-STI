@@ -1,11 +1,12 @@
 import 'package:chamada_inteligente/models/aluno.dart';
+import 'package:chamada_inteligente/models/turma.dart';
 import 'package:chamada_inteligente/utils/page-utils.dart';
 import 'package:chamada_inteligente/utils/card-horizontal.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
-  final Aluno user;
-
+  final dynamic user;
+  //Recuperar as turmas do professor funcionando
   const Home({Key? key, required this.user}) : super(key: key);
 
   @override

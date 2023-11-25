@@ -1,12 +1,22 @@
 Rails.application.routes.draw do
+  #Aluno - API
   root 'alunos#index'
-  get "/disciplinas/:id", to: "disciplinas#getDisciplina"
-  get "/professors/:id", to: "professors#getProfessor"
-  get "/turmas/:id", to: "turmas#home"
   get "/alunos", to: "alunos#index"
   post "/login", to: "alunos#login"
+
+
+  #Turmas - API
+  get "/turmas/aluno/:id", to: "turmas#turmasAluno"
+  get "/turmas/professor/:id", to: "turmas#turmasProfessor"
+  get "/disciplinas/:id", to: "disciplinas#getDisciplina"
+
+
+  #chamada - API
   post "/presenca", to: "chamadas#marcarPresenca"
-  get "/presencas", to: "chamadas#show"
+
+  #professor - API
+  get "/professor/:id", to: "professors#getProfessor"
+  post "/loginProfessor", to: "professors#login"
 
   resources :alunos
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -9,7 +9,9 @@ class Turma {
       required this.hora_fim,
       required this.disciplinas_id,
       required this.professors_id,
-      required this.dias});
+      required this.dias,
+      required this.aulas_semestre
+      });
   final int id;
   final String cod_turma;
   final String hora_inicio;
@@ -17,6 +19,7 @@ class Turma {
   final int disciplinas_id;
   final int professors_id;
   final List<String> dias;
+  final int aulas_semestre;
   // final Disciplina disciplina;
 
   factory Turma.fromJson(Map<String, dynamic> data) {
@@ -29,6 +32,7 @@ class Turma {
     final dias = (json.decode(data["dias"]) as List<dynamic>)
     .map((element) => element.toString())
     .toList();
+    final aulas_semestre = data["aulas_semestre"];
 
     return Turma(
         id: id,
@@ -37,14 +41,18 @@ class Turma {
         hora_fim: hora_fim,
         disciplinas_id: disciplinas_id,
         professors_id: professors_id,
-        dias: dias);
+        dias: dias,
+        aulas_semestre: aulas_semestre
+        );
   }
-   static Future<List<Turma>?> getTurmas(int id) async{
+
+//Recupera turmas do aluno
+static Future<List<Turma>?> getTurmasAlunos(int id) async{
     try
     {
       List<Turma> turmas=[];
        var response = await http.get(
-      Uri.parse('$BaseUrl/turmas/' + id.toString()),
+      Uri.parse('$BaseUrl/turmas/aluno/' + id.toString()),
     );
 
     if (response.statusCode == 200) {
@@ -52,6 +60,27 @@ class Turma {
       for(int i =0; i< data.length ; i++){
         turmas.add(Turma.fromJson(data[i]));
 
+      }
+    return turmas;
+    }
+    } catch(e){
+      print(e.toString());
+    }
+  }
+
+//Recupera turmas do professor
+static Future<List<Turma>?> getTurmasProfessor(int id) async{
+    try
+    {
+      List<Turma> turmas=[];
+       var response = await http.get(
+      Uri.parse('$BaseUrl/turmas/professor/' + id.toString()),
+    );
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      for(int i =0; i< data.length ; i++){
+        turmas.add(Turma.fromJson(data[i]));
       }
     return turmas;
     }

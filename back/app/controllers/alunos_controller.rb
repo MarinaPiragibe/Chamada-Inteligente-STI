@@ -1,7 +1,4 @@
 class AlunosController < ApplicationController
-  def index
-    @alunos = Aluno.all
-  end
 
   def show
     @aluno=Aluno.find(params[:id])
@@ -9,6 +6,7 @@ class AlunosController < ApplicationController
     render json: @aluno
   end
 
+  #Confere o login inserido e retorna Aluno
   def login
   
     @aluno = Aluno.where(email:params[:email], senha:params[:senha])

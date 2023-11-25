@@ -16,21 +16,11 @@ class Disciplina {
     return Disciplina(id: id, cod_disciplina: cod_disciplina, nome: nome);
   }
 
-  static Future GetDisciplina(int id) async {
-    http.Response response = await http.get(
-      Uri.parse('$BaseUrl/disciplinas/' + id.toString()),
-    );
-
-
-
-    return response;
-  }
-
   static Future<Disciplina?> getDisciplinas(int id) async{
     try
     {
        var response = await http.get(
-      Uri.parse('http://127.0.0.1:3000/disciplinas/' + id.toString()),
+      Uri.parse('$BaseUrl/disciplinas/' + id.toString()),
     );
 
     if (response.statusCode == 200) {

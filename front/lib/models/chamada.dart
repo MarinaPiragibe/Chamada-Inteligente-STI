@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:chamada_inteligente/models/aluno.dart';
-import 'package:chamada_inteligente/models/professors.dart';
+import 'package:chamada_inteligente/models/professor.dart';
 import 'package:chamada_inteligente/models/turma.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';

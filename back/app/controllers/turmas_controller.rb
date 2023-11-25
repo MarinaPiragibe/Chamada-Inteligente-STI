@@ -1,11 +1,8 @@
 class TurmasController < ApplicationController
 
-  # GET /turmas or /turmas.json
-  def index
-    @turmas = Turma.all
-  end
 
   # GET /turmas/1 or /turmas/1.json
+  #Recupera turma com o professor e disciplina
   def show
     @turma = Turma.find(params[:id])
     @professor = Professor.where("id = ?",@turma.professors_id)
@@ -14,7 +11,8 @@ class TurmasController < ApplicationController
     
   end
 
-  def home
+  #Recupera turmas do aluno
+  def turmasAluno
     @turmas = Turma.joins(aluno_pertence_turmas: :aluno).where("aluno_id = ?",params[:id])
     lista_turmas = []
     for i in @turmas do
@@ -29,62 +27,21 @@ class TurmasController < ApplicationController
     end
   end
 
-  # GET /turmas/new
-  def new
-    @turma = Turma.new
-  end
 
-  # GET /turmas/1/edit
-  def edit
-  end
-
-  # POST /turmas or /turmas.json
-  def create
-    @turma = Turma.new(turma_params)
-
-    respond_to do |format|
-      if @turma.save
-        format.html { redirect_to turma_url(@turma), notice: "Turma was successfully created." }
-        format.json { render :show, status: :created, location: @turma }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @turma.errors, status: :unprocessable_entity }
-      end
+  def turmasProfessor
+    @turmas = Turma.where("professors_id = ?",params[:id])
+    lista_turmas = []
+    for i in @turmas do
+      lista_turmas.push(i)
+    end
+    if(lista_turmas != [])
+    render json: lista_turmas, :status => :ok
+    else
+      error = {
+        error: " Sem turma para ministrar!"};
+      render :json => error, :status => :bad_request
     end
   end
 
-  # PATCH/PUT /turmas/1 or /turmas/1.json
-  def update
-    respond_to do |format|
-      if @turma.update(turma_params)
-        format.html { redirect_to turma_url(@turma), notice: "Turma was successfully updated." }
-        format.json { render :show, status: :ok, location: @turma }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @turma.errors, status: :unprocessable_entity }
-      end
-    end
-  end
 
-  # DELETE /turmas/1 or /turmas/1.json
-  def destroy
-    @turma.destroy
-
-    respond_to do |format|
-      format.html { redirect_to turmas_url, notice: "Turma was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_turma
-      @turma = Turma.find(params[:id])
-      @professor = Professor.where("id = ?", params[:id])
-    end
-
-    # Only allow a list of trusted parameters through.
-    def turma_params
-      params.require(:turma).permit(:cod_turma, :hora_inicio, :hora_fim)
-    end
 end

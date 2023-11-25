@@ -1,7 +1,9 @@
 import 'package:chamada_inteligente/models/aluno.dart';
+import 'package:chamada_inteligente/models/professor.dart';
 import 'package:chamada_inteligente/pages/home.dart';
 import 'package:chamada_inteligente/pages/login.dart';
 import 'package:chamada_inteligente/pages/turmas.dart';
+import 'package:chamada_inteligente/pages/professor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,8 +19,8 @@ class Routes {
       return Turmas(user: user);
     },
     Routes.home: (context) {
-      final user = ModalRoute.of(context)!.settings.arguments as Aluno;
+      final user = ModalRoute.of(context)!.settings.arguments as dynamic;
       return Home(user: user);
-    },
+    }
   };
 }

@@ -12,7 +12,7 @@ class PageUtils {
   ];
 
   static BottomNavigationBar buildBottomNavigationBar(
-      BuildContext context, Aluno user) {
+      BuildContext context, dynamic user) {
     return BottomNavigationBar(
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(

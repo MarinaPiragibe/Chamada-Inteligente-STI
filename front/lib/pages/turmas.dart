@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:chamada_inteligente/models/aluno.dart';
 import 'package:chamada_inteligente/models/chamada.dart';
-import 'package:chamada_inteligente/models/professors.dart';
+import 'package:chamada_inteligente/models/professor.dart';
 import 'package:chamada_inteligente/models/turma.dart';
 import 'package:chamada_inteligente/utils/card-horizontal.dart';
 import 'package:chamada_inteligente/utils/card-utils.dart';
@@ -42,7 +42,7 @@ class _TurmasState extends State<Turmas> {
 
   //Pegando turmas, disciplinas e professores
   void _PegarDados() async {
-    turmas = (await Turma.getTurmas(widget.user.id))!;
+    turmas = (await Turma.getTurmasAlunos(widget.user.id))!;
 
     for (int i = 0; i < turmas!.length; i++) {
       disc = await Disciplina.getDisciplinas(turmas![i].disciplinas_id);

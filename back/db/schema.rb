@@ -50,6 +50,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_28_143355) do
   create_table "professors", force: :cascade do |t|
     t.string "nome"
     t.string "cpf"
+    t.string "email"
+    t.string "senha"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -59,6 +61,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_28_143355) do
     t.string "hora_inicio"
     t.string "hora_fim"
     t.string "dias"
+    t.integer "aulas_semestre"
+    t.integer "aulas_com_chamada"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "professors_id"

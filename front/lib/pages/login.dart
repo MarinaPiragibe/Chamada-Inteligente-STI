@@ -1,6 +1,8 @@
 import 'package:chamada_inteligente/models/aluno.dart';
+import 'package:chamada_inteligente/models/professor.dart';
 import 'package:chamada_inteligente/pages/home.dart';
 import 'package:http/http.dart' as http;
+import 'package:chamada_inteligente/pages/errors/errorsLogin.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +16,7 @@ class LoginPage extends StatefulWidget {
 
 final _email = TextEditingController();
 final _senha = TextEditingController();
+bool loginProfessor = false;
 Widget buildEmail(context) {
   return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,17 +131,25 @@ Widget buildLogin(BuildContext context) {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       ),
       onPressed: () async {
-        verificarUsuario(_email.text.toString(), _senha.text.toString(), context);
+        verificarInputInserido(_email.text.toString(), _senha.text.toString(), context);
+        if(loginProfessor){
+            Professor? professor = await Professor.verificarProfessor(_email.text.toString(), _senha.text.toString());
+        if(professor != null){
+           Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Home(user: professor)));
+        } else loginComFalha(context);
+        
+        } else{
         Aluno? aluno = await Aluno.verificarAluno(_email.text.toString(), _senha.text.toString());
         if(aluno != null){
            Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => Home(user: aluno)));
-        } else
-        ScaffoldMessenger.of(context).showSnackBar(snackBarErroLogin);
-        _senha.clear();
-
+        } else loginComFalha(context);
+        }
       },
       child: Text(
         'LOGIN',
@@ -151,42 +162,24 @@ Widget buildLogin(BuildContext context) {
   );
 }
 
-final snackBarErroLogin = SnackBar(
-  content: Text(
-    "email ou senha inválidos!",
-    textAlign: TextAlign.center,
-  ),
-  backgroundColor: Colors.redAccent,
-  duration: const Duration(seconds: 5),
-);
-final snackBarEmailEmpty = SnackBar(
-  content: Text(
-    "email vazio!",
-    textAlign: TextAlign.center,
-  ),
-  backgroundColor: Color.fromARGB(255, 216, 80, 1),
-  duration: const Duration(seconds: 2),
-);
-final snackBarSenhaEmpty = SnackBar(
-  content: Text(
-    "senha vazia!",
-    textAlign: TextAlign.center,
-  ),
-  backgroundColor: Color.fromARGB(255, 216, 80, 1),
-  duration: const Duration(seconds: 2),
-);
-
-void verificarUsuario(String email, String senha, BuildContext context)  {
+void verificarInputInserido(String email, String senha, BuildContext context)  {
+    //verifica se o campo email esta vazio
     if (email.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(snackBarEmailEmpty);
     throw ErrorDescription("email vazio!");
   }
+  //verificar se o campo senha esta vazio
   if (senha.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(snackBarSenhaEmpty);
     throw ErrorDescription("senha vazia!");
   }
 
 
+}
+
+void loginComFalha(context){
+  ScaffoldMessenger.of(context).showSnackBar(snackBarErroLogin);
+  _senha.clear();
 }
 
 Widget buildSingup() {
@@ -206,6 +199,27 @@ Widget buildSingup() {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+trocarEstadoLoginProfessor(){
+      setState(() {
+      loginProfessor = !loginProfessor;
+    });
+}
+  Widget botaoProfessor() {
+    return TextButton(
+      onPressed: () {
+        trocarEstadoLoginProfessor();
+      },
+      style: TextButton.styleFrom(
+        backgroundColor: loginProfessor ? Colors.green : Colors.red,
+      ),
+      child: Text(
+        loginProfessor ? 'Professor' : 'Aluno',
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -237,6 +251,7 @@ class _LoginPageState extends State<LoginPage> {
                   buildEmail(context),
                   buildPassword(context),
                   buildForgotPassword(),
+                  botaoProfessor(),
                   SizedBox(
                     height: 10,
                   ),
