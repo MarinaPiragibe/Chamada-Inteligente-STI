@@ -63,6 +63,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_28_143355) do
     t.string "dias"
     t.integer "aulas_semestre"
     t.integer "aulas_com_chamada"
+    t.integer "chamada_ativa"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "professors_id"

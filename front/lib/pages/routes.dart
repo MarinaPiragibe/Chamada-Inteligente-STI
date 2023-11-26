@@ -1,5 +1,6 @@
 import 'package:chamada_inteligente/models/aluno.dart';
 import 'package:chamada_inteligente/models/professor.dart';
+import 'package:chamada_inteligente/pages/chamadaPage.dart';
 import 'package:chamada_inteligente/pages/home.dart';
 import 'package:chamada_inteligente/pages/login.dart';
 import 'package:chamada_inteligente/pages/turmas.dart';
@@ -11,6 +12,7 @@ class Routes {
   static const home = '/home';
   static const login = '/login';
   static const turmas = '/turmas';
+  static const chamada = "/chamada";
 
   static Map<String, Widget Function(BuildContext)> routes = {
     Routes.login: (context) => const LoginPage(),
@@ -21,6 +23,11 @@ class Routes {
     Routes.home: (context) {
       final user = ModalRoute.of(context)!.settings.arguments as dynamic;
       return Home(user: user);
+    }
+    ,
+    Routes.chamada: (context) {
+      final user = ModalRoute.of(context)!.settings.arguments as Aluno;
+      return ChamadaPage(user: user);
     }
   };
 }

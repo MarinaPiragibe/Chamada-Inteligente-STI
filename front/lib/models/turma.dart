@@ -10,7 +10,8 @@ class Turma {
       required this.disciplinas_id,
       required this.professors_id,
       required this.dias,
-      required this.aulas_semestre
+      required this.aulas_semestre,
+      required this.chamada_ativa
       });
   final int id;
   final String cod_turma;
@@ -20,6 +21,7 @@ class Turma {
   final int professors_id;
   final List<String> dias;
   final int aulas_semestre;
+  final int chamada_ativa;
   // final Disciplina disciplina;
 
   factory Turma.fromJson(Map<String, dynamic> data) {
@@ -33,7 +35,7 @@ class Turma {
     .map((element) => element.toString())
     .toList();
     final aulas_semestre = data["aulas_semestre"];
-
+    final chamada_ativa = data["chamada_ativa"];
     return Turma(
         id: id,
         cod_turma: cod_turma,
@@ -42,7 +44,8 @@ class Turma {
         disciplinas_id: disciplinas_id,
         professors_id: professors_id,
         dias: dias,
-        aulas_semestre: aulas_semestre
+        aulas_semestre: aulas_semestre,
+        chamada_ativa: chamada_ativa
         );
   }
 
@@ -87,5 +90,27 @@ static Future<List<Turma>?> getTurmasProfessor(int id) async{
     } catch(e){
       print(e.toString());
     }
+  }
+
+  //Recupera Turma com chamada ativa
+  static Future<Turma?> getChamadaAula(int id) async{
+  try
+  {
+      var response = await http.get(
+    Uri.parse('$BaseUrl/pegarChamadaAtiva/' + id.toString()),
+  );
+
+  if (response.statusCode == 200) {
+    var data = json.decode(response.body);
+    return Turma.fromJson(data);
+  }
+  if(response.statusCode == 400)
+  {
+    print("Sem chamada ativa!");
+    return null;
+  }
+  } catch(e){
+    print(e.toString());
+  }
   }
 }

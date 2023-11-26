@@ -33,7 +33,7 @@ static BottomNavigationBar buildBottomNavigationBarProfessor(
       selectedItemColor: Theme.of(context).primaryColor,
       onTap: (int index) {
         selectedIndex = index;
-        final routes = ['/home', '/home', '/login'];
+        final routes = ['/home', '/admin', '/login'];
         // Se o índice for 1 (Turmas), navegue para a rota 'turmas' com o parâmetro user
         print(routes[index]);
         Navigator.pushReplacementNamed(context, routes[index], arguments: user);
@@ -58,12 +58,16 @@ static BottomNavigationBar buildBottomNavigationBarProfessor(
           icon: Icon(Icons.person),
           label: 'Perfil',
         ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.phone_enabled),
+          label: 'Chamada',
+        ),
       ],
       currentIndex: selectedIndex,
       selectedItemColor: Theme.of(context).primaryColor,
       onTap: (int index) {
         selectedIndex = index;
-        final routes = ['/home', '/turmas', '/login'];
+        final routes = ['/home', '/turmas', '/login','/chamada'];
         // Se o índice for 1 (Turmas), navegue para a rota 'turmas' com o parâmetro user
         print(routes[index]);
         Navigator.pushReplacementNamed(context, routes[index], arguments: user);

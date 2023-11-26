@@ -78,11 +78,7 @@ class _TurmasState extends State<Turmas> {
     return lista;
   }
 
-  //Se estiver no horario chama a funcao de marcarPresenca
-  //  if(int.parse(turmas[i].hora_inicio) <= DateTime.now().hour &&  DateTime.now().hour < int.parse(turmas[i].hora_fim)){ print("Está no horario da chamada");
-    // chamadas_ativas.add(Chamada(id: i,aluno: widget.user, turma: turmas![i], professor: professores![i]));
-    //   Chamada.marcarPresenca(chamadas_ativas[0], DateTime.now(), DateTime.now());
-  //     }
+
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +92,7 @@ class _TurmasState extends State<Turmas> {
             )
           : HorizontalCardList(
               cardDataList: listagemTurmas(turmas!, disciplinas!, professores!),
+             
             ),          
       bottomNavigationBar:
           PageUtils.buildBottomNavigationBarAluno(context, widget.user),
