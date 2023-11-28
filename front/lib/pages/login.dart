@@ -292,7 +292,7 @@ class _LoginPageState extends State<LoginPage> {
                         top: MediaQuery.of(context).size.height * 0.1,
                         left: MediaQuery.of(context).size.width * 0.1,
                         child:Text(
-                        'Sing In',
+                        'Entrar',
                         style: TextStyle(
                           fontSize: 40,
                           fontWeight: FontWeight.bold,
