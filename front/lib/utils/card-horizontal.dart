@@ -25,8 +25,8 @@ class HorizontalCardList extends StatelessWidget {
             enlargeCenterPage: true,
             enableInfiniteScroll: true,
             autoPlay: true,
-            height: 300,
-            viewportFraction: 0.5,
+            height: 150,
+            viewportFraction: 0.7,
           ),
           itemBuilder: (context, index, realIndex) {
             final color = cardColors[index % cardColors.length];
@@ -35,7 +35,7 @@ class HorizontalCardList extends StatelessWidget {
             final descricao = cardData['descricao'];
             return Container(
               width: 200,
-              margin: EdgeInsets.all(8),
+              margin: EdgeInsets.all(6),
               child: Card(
                 color: color,
                 child: Padding(
@@ -47,6 +47,7 @@ class HorizontalCardList extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
+                          color: Colors.yellow
                         ),
                       ),
                       Text(

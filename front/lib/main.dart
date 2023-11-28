@@ -19,8 +19,7 @@ void main() {
       scaffoldBackgroundColor:
           Colors.white, // Define a cor de fundo do Scaffold como azul escuro
       appBarTheme: AppBarTheme(
-        color: Colors.blue[
-            900], // Define a cor de fundo da barra de aplicativos como azul escuro
+        color: Colors.blue[900], // Define a cor de fundo da barra de aplicativos como azul escuro
       ),
     ),
   ));

@@ -18,6 +18,7 @@ class cardExpandido extends StatelessWidget {
           style: const TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
+            
           ),
         ),
         children: <Widget>[

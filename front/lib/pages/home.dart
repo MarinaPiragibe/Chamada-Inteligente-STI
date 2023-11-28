@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:chamada_inteligente/models/aluno.dart';
 import 'package:chamada_inteligente/models/localizacao.dart';
 import 'package:chamada_inteligente/models/turma.dart';
@@ -6,6 +8,29 @@ import 'package:chamada_inteligente/utils/card-horizontal.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+
+class GradientPage extends StatelessWidget {
+  final Widget child;
+
+  GradientPage({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Colors.blue[900]!, Colors.blue[1000]!],
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: child,
+      ),
+    );
+  }
+}
 
 class Home extends StatefulWidget {
   final dynamic user;
@@ -38,9 +63,16 @@ class _HomeState extends State<Home> {
         //title: Text('teste'),
         // shape: WavyAppBarShape(),
         //),
-      body: Column(
-        children:[
-          Row(children: [
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color.fromRGBO(255,255,255,1),Color.fromRGBO(177, 246, 255, 0.52), Color.fromRGBO(168, 245, 255, 0.8177)],
+          ),
+          ),child: Column(
+        crossAxisAlignment:CrossAxisAlignment.start,
+        children:[Padding(padding: const EdgeInsets.only(left: 16.0),child: Row(children: [
             Stack(
             alignment: Alignment.center,
             children: <Widget>[
@@ -48,39 +80,48 @@ class _HomeState extends State<Home> {
               Container(
                 width: 50,
                 height: 50,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
-                  color: const Color.fromRGBO(6, 39, 80, 1),
+                  color: Color.fromRGBO(6, 39, 80, 1),
                 ),
               ),
               // Ícone de pessoa sobreposto ao círculo
-              Icon(
+              const Icon(
                 Icons.person,
                 color: Colors.white,
                 size: 40,
               ),
             ],),
-            SizedBox(
+            const SizedBox(
               width: 15,),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Bem Vindo,',
                   style: TextStyle(
-                    color: const Color.fromRGBO(6, 39, 80, 1),
+                    color: Color.fromRGBO(6, 39, 80, 1),
                     fontSize: 12),),
                 Text(
                   widget.user.nome,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: const Color.fromRGBO(6, 39, 80, 1),
+                    color: Color.fromRGBO(6, 39, 80, 1),
                     fontSize: 14),
                   )],)
-            ],),
+            ],),),
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0),
+              child: const Text(
+                'Turmas',
+                style: TextStyle(
+                  color: Color.fromRGBO(6, 39, 80, 1),
+                  fontSize:25,
+                  fontWeight:FontWeight.bold),))
+            ,
             HorizontalCardList(
               cardDataList: lista),
-          ]),
+          ]),),
       bottomNavigationBar:
       widget.user is Aluno ? PageUtils.buildBottomNavigationBarAluno(context, widget.user) : PageUtils.buildBottomNavigationBarProfessor(context, widget.user),
     //     CurvedNavigationBar(

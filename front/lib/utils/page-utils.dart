@@ -51,33 +51,45 @@ static BottomNavigationBar buildBottomNavigationBarProfessor(
     ],
   );
 }
-  static CurvedNavigationBar buildBottomNavigationBarAluno(
+  static BottomNavigationBar buildBottomNavigationBarAluno(
       BuildContext context, dynamic user) {
-    return CurvedNavigationBar(
-      items: <Widget>[
-        // BottomNavigationBarItem(
-        //   icon: Icon(Icons.home),
-        //   label: 'Início',
-        // ),
-        // BottomNavigationBarItem(
-        //   icon: Icon(Icons.list),
-        //   label: 'Turmas',
-        // ),
-        // BottomNavigationBarItem(
-        //   icon: Icon(Icons.person),
-        //   label: 'Perfil',
-        // ),
-        // BottomNavigationBarItem(
-        //   icon: Icon(Icons.phone_enabled),
-        //   label: 'Chamada',
-        // ),
-        buildCurvedNavigationBarItem(Icons.home, 'Início'),
-        buildCurvedNavigationBarItem(Icons.list, 'Turmas'),
-        buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
-        buildCurvedNavigationBarItem(Icons.phone_enabled, 'Chamada'),
+    return BottomNavigationBar(
+      items: const <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Início',
+        
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.list),
+          label: 'Turmas',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: 'Perfil',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.phone_enabled),
+          label: 'Chamada',
+          
+        ),
+        // buildCurvedNavigationBarItem(Icons.home, 'Início'),
+        // buildCurvedNavigationBarItem(Icons.list, 'Turmas'),
+        // buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
+        // buildCurvedNavigationBarItem(Icons.phone_enabled, 'Chamada'),
       ],
-      // currentIndex: selectedIndex,
-      // selectedItemColor: Theme.of(context).primaryColor,
+        selectedLabelStyle: TextStyle(
+      color: Colors.blue, // Cor do texto do rótulo selecionado
+      fontSize: 14.0, // Tamanho do texto do rótulo selecionado
+      fontWeight: FontWeight.bold, // Peso da fonte para rótulo selecionado
+    ),
+    unselectedLabelStyle: TextStyle(
+      color: Colors.grey, // Cor do texto do rótulo não selecionado
+      fontSize: 14.0, // Tamanho do texto do rótulo não selecionado
+      fontWeight: FontWeight.normal, // Peso da fonte para rótulo não selecionado
+    ),
+      currentIndex: selectedIndex,
+      selectedItemColor:const Color.fromARGB(255, 0, 0, 0),
       onTap: (int index) {
         selectedIndex = index;
         final routes = ['/home', '/turmas', '/login','/chamada'];
