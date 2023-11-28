@@ -7,6 +7,42 @@ import 'package:chamada_inteligente/pages/errors/errorsLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+class MyCustomClipper extends CustomClipper<Rect> {
+  @override
+  Rect getClip(Size size) {
+    // Define a região a ser cortada (neste caso, 100 pixels da parte superior)
+    return Rect.fromLTWH(0, 100, size.width, size.height - 100);
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Rect> oldClipper) {
+    return false;
+  }
+}
+
+class GradientPage extends StatelessWidget {
+  final Widget child;
+
+  GradientPage({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Colors.blue[900]!, Colors.blue[1000]!],
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: child,
+      ),
+    );
+  }
+}
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -131,24 +167,24 @@ Widget buildLogin(BuildContext context) {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
       ),
       onPressed: () async {
-        verificarInputInserido(_email.text.toString(), _senha.text.toString(), context);
-        if(loginProfessor){
-            Professor? professor = await Professor.verificarProfessor(_email.text.toString(), _senha.text.toString());
-        if(professor != null){
-           Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Home(user: professor)));
-        } else loginComFalha(context);
-        
-        } else{
-        Aluno? aluno = await Aluno.verificarAluno(_email.text.toString(), _senha.text.toString());
-        if(aluno != null){
-           Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Home(user: aluno)));
-        } else loginComFalha(context);
+        verificarInputInserido(
+            _email.text.toString(), _senha.text.toString(), context);
+        if (loginProfessor) {
+          Professor? professor = await Professor.verificarProfessor(
+              _email.text.toString(), _senha.text.toString());
+          if (professor != null) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Home(user: professor)));
+          } else
+            loginComFalha(context);
+        } else {
+          Aluno? aluno = await Aluno.verificarAluno(
+              _email.text.toString(), _senha.text.toString());
+          if (aluno != null) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Home(user: aluno)));
+          } else
+            loginComFalha(context);
         }
       },
       child: Text(
@@ -162,9 +198,9 @@ Widget buildLogin(BuildContext context) {
   );
 }
 
-void verificarInputInserido(String email, String senha, BuildContext context)  {
-    //verifica se o campo email esta vazio
-    if (email.isEmpty) {
+void verificarInputInserido(String email, String senha, BuildContext context) {
+  //verifica se o campo email esta vazio
+  if (email.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(snackBarEmailEmpty);
     throw ErrorDescription("email vazio!");
   }
@@ -173,11 +209,9 @@ void verificarInputInserido(String email, String senha, BuildContext context)  {
     ScaffoldMessenger.of(context).showSnackBar(snackBarSenhaEmpty);
     throw ErrorDescription("senha vazia!");
   }
-
-
 }
 
-void loginComFalha(context){
+void loginComFalha(context) {
   ScaffoldMessenger.of(context).showSnackBar(snackBarErroLogin);
   _senha.clear();
 }
@@ -189,9 +223,10 @@ Widget buildSingup() {
       text: TextSpan(children: [
         TextSpan(
             text: "Nao possui uma conta? ",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+            style: TextStyle(fontSize: 12, color: Color.fromRGBO(126, 126, 126, 1))),
         TextSpan(
           text: " Cadastre-se",
+          style: TextStyle(fontSize: 12,color: Color.fromRGBO(42, 105, 136, 1), fontWeight: FontWeight.w500,)
         )
       ]),
     ),
@@ -199,12 +234,12 @@ Widget buildSingup() {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
-trocarEstadoLoginProfessor(){
-      setState(() {
+  trocarEstadoLoginProfessor() {
+    setState(() {
       loginProfessor = !loginProfessor;
     });
-}
+  }
+
   Widget botaoProfessor() {
     return TextButton(
       onPressed: () {
@@ -222,47 +257,68 @@ trocarEstadoLoginProfessor(){
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Container(
+      
+      child: Scaffold(
         body: AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Stack(
         children: <Widget>[
           Container(
-            height: double.infinity,
-            width: double.infinity,
-            child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 40),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset(
-                    'images/logo.png', // Substitua 'seu_logo.png' pelo caminho da imagem
-                    width: 150, // Defina a largura desejada
-                    height: 150, // Defina a altura desejada
-                  ),
-                  Text(
-                    'Sing In',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
+            decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Color.fromRGBO(255,255,255,1),Color.fromRGBO(177, 246, 255, 0.52), Color.fromRGBO(168, 245, 255, 0.8177)],
                     ),
                   ),
-                  buildEmail(context),
-                  buildPassword(context),
-                  buildForgotPassword(),
-                  botaoProfessor(),
-                  SizedBox(
-                    height: 10,
+              height: double.infinity,
+              width: double.infinity,
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Stack(
+                        alignment: Alignment.center,
+                      children: [
+                        Image.asset(
+                        width: double.infinity,
+                        'images/bg.png', 
+                        fit: BoxFit.cover,
+
+                      ),Positioned(
+                        top: MediaQuery.of(context).size.height * 0.1,
+                        left: MediaQuery.of(context).size.width * 0.1,
+                        child:Text(
+                        'Sing In',
+                        style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white
+                        ),
+                      )),],),
+                      
+                      
+                      Container(child: buildEmail(context),padding: EdgeInsets.symmetric(horizontal: 25),),
+                      Container(child: buildPassword(context),padding: EdgeInsets.symmetric(horizontal: 25),),
+                      Container(child: buildForgotPassword(),padding: EdgeInsets.symmetric(horizontal: 25),),
+                      Container(child: botaoProfessor(),padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),),
+                      
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(child: buildLogin(context),padding: EdgeInsets.symmetric(horizontal: 25)),
+                      Container(child: buildSingup(),padding: EdgeInsets.symmetric(horizontal: 25),),
+                      
+                      
+                    ],
                   ),
-                  buildLogin(context),
-                  buildSingup(),
-                ],
-              ),
-            ),
-          )
-        ],
+                ),
+              )])
+        ),
       ),
-    ));
+    );
   }
 }
