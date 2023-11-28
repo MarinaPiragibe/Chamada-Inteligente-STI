@@ -2,6 +2,7 @@ import 'package:chamada_inteligente/models/aluno.dart';
 import 'package:chamada_inteligente/models/professor.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class PageUtils {
   static int selectedIndex = 0;
@@ -41,30 +42,42 @@ static BottomNavigationBar buildBottomNavigationBarProfessor(
     );
   }
 
-
-  static BottomNavigationBar buildBottomNavigationBarAluno(
+  static Widget buildCurvedNavigationBarItem(IconData icon, String label) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Icon(icon, size: 30),
+      Text(label),
+    ],
+  );
+}
+  static CurvedNavigationBar buildBottomNavigationBarAluno(
       BuildContext context, dynamic user) {
-    return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Início',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.list),
-          label: 'Turmas',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Perfil',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.phone_enabled),
-          label: 'Chamada',
-        ),
+    return CurvedNavigationBar(
+      items: <Widget>[
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.home),
+        //   label: 'Início',
+        // ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.list),
+        //   label: 'Turmas',
+        // ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.person),
+        //   label: 'Perfil',
+        // ),
+        // BottomNavigationBarItem(
+        //   icon: Icon(Icons.phone_enabled),
+        //   label: 'Chamada',
+        // ),
+        buildCurvedNavigationBarItem(Icons.home, 'Início'),
+        buildCurvedNavigationBarItem(Icons.list, 'Turmas'),
+        buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
+        buildCurvedNavigationBarItem(Icons.phone_enabled, 'Chamada'),
       ],
-      currentIndex: selectedIndex,
-      selectedItemColor: Theme.of(context).primaryColor,
+      // currentIndex: selectedIndex,
+      // selectedItemColor: Theme.of(context).primaryColor,
       onTap: (int index) {
         selectedIndex = index;
         final routes = ['/home', '/turmas', '/login','/chamada'];
