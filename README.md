@@ -17,3 +17,8 @@ Quando puxar uma nova atualização no modelo de desenvolvimento, importante dar
   - rails db:drop
   - rails db:create
   - rails db:migrate
+    
+###Dependência nova:
+  - bundle install
+  - bundle update
+
