@@ -73,11 +73,6 @@ class _TurmasState extends State<Turmas> {
     for (var i = 0; i < turmas.length; i++) {
       lista.add({
         'titulo': '${turmas[i].cod_turma} - ${disciplinas![i].nome}',
-        // 'descricao': 
-        //     'Professor: ${professores![i].nome}\n'
-        //     'Dias da aula: ${turmas[i].dias} \n'
-        //     'Horario de inicio: ${turmas[i].hora_inicio} até as ${turmas[i].hora_fim}',
-
         'professor': '${professores![i].nome}\n',
         'dias': '${turmas[i].dias} \n',
         'horario': '${turmas[i].hora_inicio}:00 - ${turmas[i].hora_fim}:00',
@@ -102,7 +97,12 @@ class _TurmasState extends State<Turmas> {
 }
     return Scaffold(
       appBar: AppBar(
-        title: Text('Turmas'),
+        backgroundColor: Color.fromRGBO(6, 39, 80, 1),
+        iconTheme: IconThemeData(
+          size: 25,
+          color: Colors.white, // Defina a cor desejada para a seta
+  ),
+        title: Text('Turmas',style:TextStyle(color: Colors.white,fontSize: 20,fontWeight:FontWeight.w500),),
       ),
       body: Container(
         decoration: const BoxDecoration(
