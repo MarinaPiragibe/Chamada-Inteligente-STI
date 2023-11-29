@@ -43,7 +43,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
         },
         letIndexChange: (index) => true,
       ),
-
     );
   }
 }

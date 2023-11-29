@@ -6,7 +6,6 @@ import 'package:chamada_inteligente/models/turma.dart';
 import 'package:chamada_inteligente/pages/routes.dart';
 import 'package:chamada_inteligente/pages/turmas.dart';
 import 'package:chamada_inteligente/utils/card-horizontal-coluna.dart';
-import 'package:chamada_inteligente/utils/page-utils.dart';
 import 'package:chamada_inteligente/utils/card-horizontal.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';

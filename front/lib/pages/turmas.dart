@@ -5,7 +5,6 @@ import 'package:chamada_inteligente/models/professor.dart';
 import 'package:chamada_inteligente/models/turma.dart';
 import 'package:chamada_inteligente/utils/card-horizontal.dart';
 import 'package:chamada_inteligente/utils/card-utils.dart';
-import 'package:chamada_inteligente/utils/page-utils.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:chamada_inteligente/models/disciplina.dart';
