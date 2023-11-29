@@ -66,7 +66,7 @@ class TurmasController < ApplicationController
     end
 
 def recuperarChamadaAluno()
-  require_relative 'CalcularDistancia'
+  #require_relative 'CalcularDistancia'
   #Pegar dia da semana
   I18n.locale = :pt
   dia_da_semana = I18n.l(Date.today, format: '%A')

@@ -38,7 +38,8 @@ class _TurmasState extends State<Turmas> {
   List<Chamada> chamadas_ativas = [];
   int _page = 1;
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
-  final String diaSemana = DateFormat(DateFormat.WEEKDAY, 'pt_Br').format(DateTime.now());
+  final String diaSemana =
+      DateFormat(DateFormat.WEEKDAY, 'pt_Br').format(DateTime.now());
   @override
   void initState() {
     super.initState();
@@ -63,9 +64,10 @@ class _TurmasState extends State<Turmas> {
     });
   }
 
-  List<Map<String, String>> listagemTurmas(List<Turma>? turmas,List<Disciplina>? disciplinas, List<Professor>? professores) {
+  List<Map<String, String>> listagemTurmas(List<Turma>? turmas,
+      List<Disciplina>? disciplinas, List<Professor>? professores) {
     List<Map<String, String>> lista = [];
-    
+
     if (turmas == null) {
       return lista; // Retorna uma lista vazia se 'turmas' for nulo
     }
@@ -82,52 +84,70 @@ class _TurmasState extends State<Turmas> {
     return lista;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     Widget buildCurvedNavigationBarItem(IconData icon, String label) {
-    return Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Icon(icon, size: 30, color: Colors.white,),
-      Text(label,style: TextStyle(color: Colors.white),),
-    ],
-  );
-}
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            size: 30,
+            color: Colors.white,
+          ),
+          Text(
+            label,
+            style: TextStyle(color: Colors.white),
+          ),
+        ],
+      );
+    }
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color.fromRGBO(6, 39, 80, 1),
-        iconTheme: IconThemeData(
-          size: 25,
-          color: Colors.white, // Defina a cor desejada para a seta
-  ),
-        title: Text('Turmas',style:TextStyle(color: Colors.white,fontSize: 20,fontWeight:FontWeight.w500),),
-      ),
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color.fromRGBO(255,255,255,1),Color.fromRGBO(177, 246, 255, 0.52), Color.fromRGBO(168, 245, 255, 0.8177)],
+        appBar: AppBar(
+          backgroundColor: Color.fromRGBO(6, 39, 80, 1),
+          iconTheme: IconThemeData(
+            size: 25,
+            color: Colors.white, // Defina a cor desejada para a seta
           ),
+          title: Text(
+            'Turmas',
+            style: TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
           ),
-        child: turmas == [] || turmas!.isEmpty
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : HorizontalCardListColumn(
-              cardDataList: listagemTurmas(turmas!, disciplinas!, professores!),
-             
-            ),),          
-      bottomNavigationBar:
-      CurvedNavigationBar(
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color.fromRGBO(255, 255, 255, 1),
+                Color.fromRGBO(177, 246, 255, 0.52),
+                Color.fromRGBO(168, 245, 255, 0.8177)
+              ],
+            ),
+          ),
+          child: turmas == [] || turmas!.isEmpty
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : HorizontalCardListColumn(
+                  cardDataList:
+                      listagemTurmas(turmas!, disciplinas!, professores!),
+                ),
+        ),
+        bottomNavigationBar: CurvedNavigationBar(
           key: _bottomNavigationKey,
           index: 1,
           height: 60.0,
           items: <Widget>[
             buildCurvedNavigationBarItem(Icons.home, 'Ínicio'),
-            Icon(Icons.list, size: 30,color: Color.fromRGBO(255, 255, 255, 1),),
+            Icon(
+              Icons.list,
+              size: 30,
+              color: Color.fromRGBO(255, 255, 255, 1),
+            ),
             buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
             buildCurvedNavigationBarItem(Icons.phone_enabled, 'Chamada'),
           ],
@@ -140,11 +160,11 @@ class _TurmasState extends State<Turmas> {
             setState(() {
               _page = index;
             });
-            final routes = ['/home', '/turmas', '/login','/chamada'];
-            Navigator.pushReplacementNamed(context, routes[index], arguments: widget.user);
+            final routes = ['/home', '/turmas', '/login', '/chamada'];
+            Navigator.pushReplacementNamed(context, routes[index],
+                arguments: widget.user);
           },
           letIndexChange: (index) => true,
-        )
-    );
+        ));
   }
 }
