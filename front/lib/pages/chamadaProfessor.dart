@@ -19,10 +19,6 @@ class ChamadaProfessor extends StatefulWidget {
 
   const ChamadaProfessor({Key? key, required this.user}) : super(key: key);
 
-  //ChamadaPage.empty({Key? key})
-  //  : user = Aluno(id: 0, nome: '', cpf: (0).toString(), email: ''),
-  //  super(key: key);
-
   @override
   State<ChamadaProfessor> createState() => _ChamadaProfessorState();
 }
@@ -84,7 +80,7 @@ class _ChamadaProfessorState extends State<ChamadaProfessor> {
           size: 25,
           color: Colors.white, // Defina a cor desejada para a seta
   ),
-        title: Text('TESTANDO CHAMADAS ATIVAS 123',style:TextStyle(color: Colors.white,fontSize: 20,fontWeight:FontWeight.w500),),
+        title: Text('Chamadas Ativas',style:TextStyle(color: Colors.white,fontSize: 20,fontWeight:FontWeight.w500),),
       ),
           body: Container(
             decoration: const BoxDecoration(
@@ -129,7 +125,7 @@ class _ChamadaProfessorState extends State<ChamadaProfessor> {
                   index: 3,
                   height: 60.0,
                   items: <Widget>[
-                    buildCurvedNavigationBarItem(Icons.home, 'Ínicio'),
+                    buildCurvedNavigationBarItem(Icons.home, 'Inicio'),
                     buildCurvedNavigationBarItem(Icons.list, 'Turmas'),
                     buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
   
@@ -148,7 +144,7 @@ class _ChamadaProfessorState extends State<ChamadaProfessor> {
                     setState(() {
                       _page = index;
                     });
-                    final routes = ['/home', '/turmas', '/login', '/chamada'];
+                    final routes = ['/home', '/turmas', '/login', '/chamadaProfessor'];
                     Navigator.pushReplacementNamed(context, routes[index],
                         arguments: widget.user);
                   },
@@ -159,7 +155,7 @@ class _ChamadaProfessorState extends State<ChamadaProfessor> {
                   index: 1,
                   height: 60.0,
                   items: <Widget>[
-                    buildCurvedNavigationBarItem(Icons.home, '[Ínicio'),
+                    buildCurvedNavigationBarItem(Icons.home, 'Inicio'),
                     Icon(
                       Icons.list,
                       size: 30,
