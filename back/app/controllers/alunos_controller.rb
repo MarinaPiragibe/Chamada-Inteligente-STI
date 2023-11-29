@@ -14,12 +14,12 @@ class AlunosController < ApplicationController
     render json: @aluno, :status => :ok
   end
 
-  #logout
+  #logout aluno
   def logout
     @aluno = Aluno.find(params[:id])
     @aluno.update(online: 0)
-    #@aluno.update(latitude: 0)
-    #@aluno.update(longitude: 0)
+    @aluno.update(latitude: 0.0)
+    @aluno.update(longitude: 0.0)
     render json: @aluno, :status => :ok
   end
 

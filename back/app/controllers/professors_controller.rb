@@ -20,11 +20,12 @@ class ProfessorsController < ApplicationController
     render json: @professor, :status => :ok
   end
 
+  #logout professor
   def logout
     @professor = Professor.find(params[:id])
     @professor.update(online: 0)
-    #@aluno.update(latitude: 0)
-    #@aluno.update(longitude: 0)
+    @aluno.update(latitude: 0.0)
+    @aluno.update(longitude: 0.0)
     render json: @professor, :status => :ok
   end
 
