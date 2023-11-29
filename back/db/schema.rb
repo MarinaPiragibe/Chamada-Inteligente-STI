@@ -58,8 +58,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_28_143355) do
 
   create_table "turmas", force: :cascade do |t|
     t.string "cod_turma"
-    t.string "hora_inicio"
-    t.string "hora_fim"
+    t.integer "hora_inicio"
+    t.integer "hora_fim"
     t.string "dias"
     t.integer "aulas_semestre"
     t.integer "aulas_com_chamada"
