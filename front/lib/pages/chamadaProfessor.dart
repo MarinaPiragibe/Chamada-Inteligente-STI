@@ -163,7 +163,7 @@ class _ChamadaProfessorState extends State<ChamadaProfessor> {
                   )
                 : CurvedNavigationBar(
                     key: _bottomNavigationKey,
-                    index: 0,
+                    index: 1,
                     height: 60.0,
                     items: <Widget>[
                       Icon(

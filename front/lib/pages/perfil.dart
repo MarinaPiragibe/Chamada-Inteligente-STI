@@ -15,6 +15,7 @@ import 'package:chamada_inteligente/pages/chamadaProfessor.dart';
 // Perfil = Home
 class Perfil extends StatefulWidget {
   final dynamic user;
+
   const Perfil({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -151,7 +152,7 @@ class _PerfilState extends State<Perfil> with WidgetsBindingObserver{
             widget.user is Aluno
                 ? CurvedNavigationBar(
                     key: _bottomNavigationKey,
-                    index: 0,
+                    index: 2,
                     height: 60.0,
                     items: <Widget>[
                       Icon(
@@ -181,7 +182,7 @@ class _PerfilState extends State<Perfil> with WidgetsBindingObserver{
                   )
                 : CurvedNavigationBar(
                     key: _bottomNavigationKey,
-                    index: 0,
+                    index: 2,
                     height: 60.0,
                     items: <Widget>[
                       Icon(

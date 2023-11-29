@@ -128,7 +128,7 @@ class _ChamadaPageState extends State<ChamadaPage> {
             widget.user is Aluno
                 ? CurvedNavigationBar(
                     key: _bottomNavigationKey,
-                    index: 0,
+                    index: 3,
                     height: 60.0,
                     items: <Widget>[
                       Icon(
@@ -199,11 +199,10 @@ class _ChamadaPageState extends State<ChamadaPage> {
       print("Já assinou nesse dia");
       return;
     }
-    if (int.parse(turma.hora_inicio) <= DateTime.now().hour &&
-        DateTime.now().hour < int.parse(turma.hora_fim)) {
+    if (turma.hora_inicio <= (DateTime.now().hour) &&
+        DateTime.now().hour < turma.hora_fim) {
       final chamadas_ativas = new Chamada(
-          id: 1, aluno: widget.user, turma: turma, professor: professor);
-      print(DateFormat(DateFormat.YEAR_NUM_MONTH_DAY, 'pt_Br').toString());
+           aluno: widget.user, turma: turma, professor: professor);
       Chamada.marcarPresenca(chamadas_ativas, DateTime.now(), DateTime.now());
     }
   }

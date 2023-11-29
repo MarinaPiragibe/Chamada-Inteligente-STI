@@ -143,7 +143,7 @@ class _TurmasState extends State<Turmas> {
             widget.user is Aluno
                 ? CurvedNavigationBar(
                     key: _bottomNavigationKey,
-                    index: 0,
+                    index: 1,
                     height: 60.0,
                     items: <Widget>[
                       Icon(
