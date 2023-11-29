@@ -23,5 +23,10 @@ Quando puxar uma nova atualização no modelo de desenvolvimento, importante dar
   - bundle update
 
 ## Testes
-  - Execute: bundle exec rspec ./spec/testeN_spec.rb
+  - Para rodar todos os testes:
+      ´´´bundle exec rspec --format documentation´´´
+  - Para rodar um teste específico
+      ´´´bundle exec rspec ./spec/testeN_spec.rb´´´
+
+      
 
