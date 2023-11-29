@@ -14,20 +14,20 @@ import 'package:chamada_inteligente/models/disciplina.dart';
 import 'package:intl/intl.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
-class ChamadaPage extends StatefulWidget {
-  final Aluno user;
+class ChamadaProfessor extends StatefulWidget {
+  final Professor user;
 
-  const ChamadaPage({Key? key, required this.user}) : super(key: key);
+  const ChamadaProfessor({Key? key, required this.user}) : super(key: key);
 
   //ChamadaPage.empty({Key? key})
   //  : user = Aluno(id: 0, nome: '', cpf: (0).toString(), email: ''),
   //  super(key: key);
 
   @override
-  State<ChamadaPage> createState() => _ChamadaPageState();
+  State<ChamadaProfessor> createState() => _ChamadaProfessorState();
 }
 
-class _ChamadaPageState extends State<ChamadaPage> {
+class _ChamadaProfessorState extends State<ChamadaProfessor> {
   int _page = 0;
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   //inicializando dados
@@ -84,7 +84,7 @@ class _ChamadaPageState extends State<ChamadaPage> {
           size: 25,
           color: Colors.white, // Defina a cor desejada para a seta
   ),
-        title: Text('Chamadas Ativas',style:TextStyle(color: Colors.white,fontSize: 20,fontWeight:FontWeight.w500),),
+        title: Text('TESTANDO CHAMADAS ATIVAS 123',style:TextStyle(color: Colors.white,fontSize: 20,fontWeight:FontWeight.w500),),
       ),
           body: Container(
             decoration: const BoxDecoration(
@@ -198,7 +198,7 @@ class _ChamadaPageState extends State<ChamadaPage> {
     if (int.parse(turma.hora_inicio) <= DateTime.now().hour &&
         DateTime.now().hour < int.parse(turma.hora_fim)) {
       final chamadas_ativas = new Chamada(
-          id: 1, aluno: widget.user, turma: turma, professor: professor);
+          id: 1, professor: widget.user, turma: turma, aluno: professor);
       print(DateFormat(DateFormat.YEAR_NUM_MONTH_DAY, 'pt_Br').toString());
       Chamada.marcarPresenca(chamadas_ativas, DateTime.now(), DateTime.now());
     }

@@ -14,12 +14,15 @@ class PageUtils {
   ];
 
 static BottomNavigationBar buildBottomNavigationBarProfessor(
-      BuildContext context, Professor user) {
+      BuildContext context, dynamic user) {
     return BottomNavigationBar(
+      selectedLabelStyle: TextStyle(color: Colors.black),
+      selectedIconTheme: IconThemeData(color: Colors.black),
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Início',
+          backgroundColor: Colors.blue,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.list),
@@ -29,12 +32,20 @@ static BottomNavigationBar buildBottomNavigationBarProfessor(
           icon: Icon(Icons.person),
           label: 'Perfil',
         ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.phone_enabled),
+          label: 'Chamada',
+          
+        ),
+        // buildCurvedNavigationBarItem(Icons.home, 'Início'),
+        // buildCurvedNavigationBarItem(Icons.list, 'Turmas'),
+        // buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
+        // buildCurvedNavigationBarItem(Icons.phone_enabled, 'Chamada'),
       ],
       currentIndex: selectedIndex,
-      selectedItemColor: Theme.of(context).primaryColor,
       onTap: (int index) {
         selectedIndex = index;
-        final routes = ['/home', '/admin', '/login'];
+        final routes = ['/home', '/turmas', '/login','/chamada'];
         // Se o índice for 1 (Turmas), navegue para a rota 'turmas' com o parâmetro user
         print(routes[index]);
         Navigator.pushReplacementNamed(context, routes[index], arguments: user);

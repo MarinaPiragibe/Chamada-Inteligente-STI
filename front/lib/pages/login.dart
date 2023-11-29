@@ -3,7 +3,6 @@ import 'package:chamada_inteligente/models/professor.dart';
 import 'package:chamada_inteligente/pages/home.dart';
 import 'package:http/http.dart' as http;
 import 'package:chamada_inteligente/pages/errors/errorsLogin.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

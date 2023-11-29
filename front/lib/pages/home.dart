@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:chamada_inteligente/utils/page-utils-aluno.dart';
-
+import 'package:chamada_inteligente/pages/chamadaProfessor.dart';
 
 class GradientPage extends StatelessWidget {
   final Widget child;
@@ -249,6 +249,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                       ),
                       buildCurvedNavigationBarItem(Icons.list, 'Admin'),
                       buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
+                      buildCurvedNavigationBarItem(Icons.phone_enabled, 'Chamada')
                     ],
                     color: Color.fromRGBO(6, 39, 80, 1),
                     buttonBackgroundColor: Color.fromRGBO(6, 39, 80, 1),
@@ -259,7 +260,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                       setState(() {
                         _page = index;
                       });
-                      final routes = ['/home', '/admin', '/login'];
+                      final routes = ['/home', '/admin', '/login', '/chamadaProfessor'];
                       Navigator.pushReplacementNamed(context, routes[index],
                           arguments: widget.user);
                     },
