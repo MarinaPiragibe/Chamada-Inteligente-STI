@@ -5,6 +5,7 @@ import 'package:chamada_inteligente/models/aluno.dart';
 import 'package:chamada_inteligente/models/chamada.dart';
 import 'package:chamada_inteligente/models/professor.dart';
 import 'package:chamada_inteligente/models/turma.dart';
+import 'package:chamada_inteligente/utils/card-horizontal-coluna.dart';
 import 'package:chamada_inteligente/utils/card-horizontal.dart';
 import 'package:chamada_inteligente/utils/card-utils.dart';
 import 'package:chamada_inteligente/utils/page-utils.dart';
@@ -31,7 +32,7 @@ class _ChamadaProfessorState extends State<ChamadaProfessor> {
   int _page = 0;
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   //inicializando dados
-  Turma? turma;
+  List<Turma>? turmasProfessor;
   Professor? professor;
 
   final String diaSemana =
@@ -44,15 +45,32 @@ class _ChamadaProfessorState extends State<ChamadaProfessor> {
 
   //Pegando turmas, disciplinas e professores
   void _PegarDados() async {
-    turma = (await Turma.getChamadaAula(widget.user.id));
-    turma != null
-        ? professor = (await Professor.getProfessor(turma!.professors_id))
-        : professor = null;
+    turmasProfessor = (await Turma.getTurmasProfessor(widget.user.id))!;
+    
 
     setState(() {
-      turma = turma;
-      professor = professor;
+      turmasProfessor = turmasProfessor;
+      professor = widget.user;
     });
+  }
+
+    List<Map<String, String>> listagemTurmas(List<Turma>? turmas, Professor? professor) {
+    List<Map<String, String>> lista = [];
+
+    if (turmas == null) {
+      return lista; // Retorna uma lista vazia se 'turmas' for nulo
+    }
+
+    for (var i = 0; i < turmas.length; i++) {
+      lista.add({
+        'titulo': '${turmas[i].cod_turma} -',
+        'professor': '${professor!.nome}\n',
+        'dias': '${turmas[i].dias} \n',
+        'horario': '${turmas[i].hora_inicio}:00 - ${turmas[i].hora_fim}:00',
+      });
+    }
+
+    return lista;
   }
 
   //Se estiver no horario chama a funcao de marcarPresenca
@@ -76,18 +94,21 @@ class _ChamadaProfessorState extends State<ChamadaProfessor> {
       );
     }
 
-    return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-        backgroundColor: Color.fromRGBO(6, 39, 80, 1),
-        iconTheme: IconThemeData(
-          size: 25,
-          color: Colors.white, // Defina a cor desejada para a seta
-  ),
-        title: Text('TESTANDO CHAMADAS ATIVAS 123',style:TextStyle(color: Colors.white,fontSize: 20,fontWeight:FontWeight.w500),),
-      ),
-          body: Container(
-            decoration: const BoxDecoration(
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color.fromRGBO(6, 39, 80, 1),
+          iconTheme: IconThemeData(
+            size: 25,
+            color: Colors.white, // Defina a cor desejada para a seta
+          ),
+          title: Text(
+            'Turmas',
+            style: TextStyle(
+                color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
+          ),
+        ),
+        body: Container(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -98,109 +119,76 @@ class _ChamadaProfessorState extends State<ChamadaProfessor> {
               ],
             ),
           ),
-            child: turma != null
-                ? Center(
-                    child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "${professor!.nome}",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                          height:
-                              20), // Adiciona um espaço entre o texto e o botão
-                      ElevatedButton(
-                        onPressed: () {
-                          assinarAula(turma, professor);
-                        },
-                        child: Text('Assinar Aula'),
-                      ),
-                    ],
-                  ))
-                : Text("Sem chamada, verifique o horário!"),
-          ),
-          bottomNavigationBar: widget.user is Aluno
-              ? CurvedNavigationBar(
-                  key: _bottomNavigationKey,
-                  index: 3,
-                  height: 60.0,
-                  items: <Widget>[
-                    buildCurvedNavigationBarItem(Icons.home, 'Ínicio'),
-                    buildCurvedNavigationBarItem(Icons.list, 'Turmas'),
-                    buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
-  
-                    Icon(
-                      Icons.phone_enabled,
-                      size: 30,
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                    ),
-                  ],
-                  color: Color.fromRGBO(6, 39, 80, 1),
-                  buttonBackgroundColor: Color.fromRGBO(6, 39, 80, 1),
-                  backgroundColor: Color.fromRGBO(168, 245, 255, 0.8177),
-                  animationCurve: Curves.easeInOut,
-                  animationDuration: Duration(milliseconds: 600),
-                  onTap: (index) {
-                    setState(() {
-                      _page = index;
-                    });
-                    final routes = ['/home', '/turmas', '/login', '/chamada'];
-                    Navigator.pushReplacementNamed(context, routes[index],
-                        arguments: widget.user);
-                  },
-                  letIndexChange: (index) => true,
+          child: turmasProfessor == [] 
+              ? const Center(
+                  child: CircularProgressIndicator(),
                 )
-              : CurvedNavigationBar(
-                  key: _bottomNavigationKey,
-                  index: 1,
-                  height: 60.0,
-                  items: <Widget>[
-                    buildCurvedNavigationBarItem(Icons.home, '[Ínicio'),
-                    Icon(
-                      Icons.list,
-                      size: 30,
-                      color: Color.fromRGBO(255, 255, 255, 1),
-                    ),
-                    buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
-                  ],
-                  color: Color.fromRGBO(6, 39, 80, 1),
-                  buttonBackgroundColor: Color.fromRGBO(6, 39, 80, 1),
-                  backgroundColor: Color.fromRGBO(168, 245, 255, 0.8177),
-                  animationCurve: Curves.easeInOut,
-                  animationDuration: Duration(milliseconds: 600),
-                  onTap: (index) {
-                    setState(() {
-                      _page = index;
-                    });
-                    final routes = ['/home', '/admin', '/login'];
-                    Navigator.pushReplacementNamed(context, routes[index],
-                        arguments: widget.user);
-                  },
-                  letIndexChange: (index) => true,
-                )),
+              : HorizontalCardListColumn(
+                  cardDataList: 
+                      listagemTurmas(turmasProfessor, professor),
+                ),
+        ),
+          // bottomNavigationBar: widget.user is Aluno
+          //     ? CurvedNavigationBar(
+          //         key: _bottomNavigationKey,
+          //         index: 3,
+          //         height: 60.0,
+          //         items: <Widget>[
+          //           buildCurvedNavigationBarItem(Icons.home, 'Ínicio'),
+          //           buildCurvedNavigationBarItem(Icons.list, 'Turmas'),
+          //           buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
+  
+          //           Icon(
+          //             Icons.phone_enabled,
+          //             size: 30,
+          //             color: Color.fromRGBO(255, 255, 255, 1),
+          //           ),
+          //         ],
+          //         color: Color.fromRGBO(6, 39, 80, 1),
+          //         buttonBackgroundColor: Color.fromRGBO(6, 39, 80, 1),
+          //         backgroundColor: Color.fromRGBO(168, 245, 255, 0.8177),
+          //         animationCurve: Curves.easeInOut,
+          //         animationDuration: Duration(milliseconds: 600),
+          //         onTap: (index) {
+          //           setState(() {
+          //             _page = index;
+          //           });
+          //           final routes = ['/home', '/turmas', '/login', '/chamada'];
+          //           Navigator.pushReplacementNamed(context, routes[index],
+          //               arguments: widget.user);
+          //         },
+          //         letIndexChange: (index) => true,
+          //       )
+          //     : CurvedNavigationBar(
+          //         key: _bottomNavigationKey,
+          //         index: 1,
+          //         height: 60.0,
+          //         items: <Widget>[
+          //           buildCurvedNavigationBarItem(Icons.home, '[Ínicio'),
+          //           Icon(
+          //             Icons.list,
+          //             size: 30,
+          //             color: Color.fromRGBO(255, 255, 255, 1),
+          //           ),
+          //           buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
+          //         ],
+          //         color: Color.fromRGBO(6, 39, 80, 1),
+          //         buttonBackgroundColor: Color.fromRGBO(6, 39, 80, 1),
+          //         backgroundColor: Color.fromRGBO(168, 245, 255, 0.8177),
+          //         animationCurve: Curves.easeInOut,
+          //         animationDuration: Duration(milliseconds: 600),
+          //         onTap: (index) {
+          //           setState(() {
+          //             _page = index;
+          //           });
+          //           final routes = ['/home', '/admin', '/login'];
+          //           Navigator.pushReplacementNamed(context, routes[index],
+          //               arguments: widget.user);
+          //         },
+          //         letIndexChange: (index) => true,
+          //       )
+   
     );
   }
 
-  void assinarAula(turma, professor) async {
-    final dia_hoje = DateFormat(DateFormat.YEAR_NUM_MONTH_DAY, 'pt_Br')
-        .format(DateTime.now())
-        .toString();
-    bool? validarAssinatura = await Chamada.verificarAssinaturaAluno(
-        widget.user.id, turma.id, dia_hoje);
-    if (validarAssinatura != true) {
-      print("Já assinou nesse dia");
-      return;
-    }
-    if (int.parse(turma.hora_inicio) <= DateTime.now().hour &&
-        DateTime.now().hour < int.parse(turma.hora_fim)) {
-      final chamadas_ativas = new Chamada(
-          id: 1, professor: widget.user, turma: turma, aluno: professor);
-      print(DateFormat(DateFormat.YEAR_NUM_MONTH_DAY, 'pt_Br').toString());
-      Chamada.marcarPresenca(chamadas_ativas, DateTime.now(), DateTime.now());
-    }
-  }
 }

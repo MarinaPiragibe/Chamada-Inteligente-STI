@@ -249,7 +249,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                       ),
                       buildCurvedNavigationBarItem(Icons.list, 'Admin'),
                       buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
-                      buildCurvedNavigationBarItem(Icons.phone_enabled, 'Chamada')
+                      //buildCurvedNavigationBarItem(Icons.phone_enabled, 'Chamada')
                     ],
                     color: Color.fromRGBO(6, 39, 80, 1),
                     buttonBackgroundColor: Color.fromRGBO(6, 39, 80, 1),
@@ -260,7 +260,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver{
                       setState(() {
                         _page = index;
                       });
-                      final routes = ['/home', '/admin', '/login', '/chamadaProfessor'];
+                      final routes = ['/home', '/chamadaProfessor', '/login'];
                       Navigator.pushReplacementNamed(context, routes[index],
                           arguments: widget.user);
                     },

@@ -106,6 +106,16 @@ end
   
 end
 
+def atualizarTurma
+  @turma = Turma.find(id: params[:id])
+  if @turma.chamada_ativa == 0
+    @turma.update(chamada_ativa:1)
+    render json: @turma, :status => :ok
+  end
+  @turma.update(chamada_ativa:0)
+  render json: @turma, :status => :ok
+end
+
 def verificarAulasDiaAluno
   #Recupera o dia atual
   I18n.locale = :pt
