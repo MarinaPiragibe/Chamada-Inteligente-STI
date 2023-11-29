@@ -59,14 +59,15 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
     }
   _PegarPosicao() async{
      Position? posicao = await Localizacao.posicaoAtual();
-      widget.user is Aluno? widget.user.setPosicaoAluno(posicao.latitude,posicao.longitude): print("213");
+      widget.user is Aluno? widget.user.setPosicaoAluno(posicao.latitude,posicao.longitude): widget.user.setPosicaoProfessor(posicao.latitude,posicao.longitude);
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state){
     super.didChangeAppLifecycleState(state);
     if(state == AppLifecycleState.detached){
-      print("Fechou");  
+      widget.user is Aluno? widget.user.logoutAluno(): widget.user.logoutProfessor();
+ 
     }
   }
   

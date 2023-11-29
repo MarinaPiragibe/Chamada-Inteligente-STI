@@ -14,6 +14,15 @@ class AlunosController < ApplicationController
     render json: @aluno, :status => :ok
   end
 
+  #logout
+  def logout
+    @aluno = Aluno.find(params[:id])
+    @aluno.update(online: 0)
+    #@aluno.update(latitude: 0)
+    #@aluno.update(longitude: 0)
+    render json: @aluno, :status => :ok
+  end
+
   #Confere o login inserido e retorna Aluno
   def login
   

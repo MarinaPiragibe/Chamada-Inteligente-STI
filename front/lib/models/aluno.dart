@@ -54,6 +54,30 @@ void atualizarAluno(double latitude, double longitude, int online)async {
     }
   }
 
+
+//logout aluno
+void logoutAluno(){
+  this.online = 0;
+  this.latitude = 0;
+  this.longitude = 0;
+  this.logoutAlunoApi();
+}
+
+  void logoutAlunoApi() async{
+  try
+    { 
+      var response = await http.post(
+      Uri.parse('$BaseUrl/logout'),
+      body: {'id': id.toString()});
+
+    if (response.statusCode == 200) {
+      return;
+    }
+    } catch(e){
+      print(e.toString());
+    }
+  }
+
 //Login aluno
 static Future<Aluno?> verificarAluno(String email, String senha) async{
     try

@@ -1,7 +1,6 @@
 require 'date'
 require 'i18n'
-class ChamadasController < ApplicationController
-    
+class ChamadasController < ApplicationController 
     def marcarPresenca
         @presenca = Chamada.create(professors_id: params[:professors_id], turmas_id: params[:turmas_id], alunos_id: params[ :alunos_id], hora_assinada: params[:hora_assinada], dia_assinado: params[:dia_assinado])
         if @presenca.save

@@ -22,6 +22,28 @@ class Professor {
     atualizarProfessor( latitude,  longitude,  online);
   }
 
+  void logoutProfessor(){
+    this.online = 0;
+    this.latitude = 0;
+    this.longitude = 0;
+    this.logoutProfessorApi();
+  }
+
+  void logoutProfessorApi() async{
+  try
+    { 
+      var response = await http.post(
+      Uri.parse('$BaseUrl/logout'),
+      body: {'id': id.toString()});
+
+    if (response.statusCode == 200) {
+      return;
+    }
+    } catch(e){
+      print(e.toString());
+    }
+  }
+
 
   void atualizarProfessor(double latitude, double longitude, int online)async {
      try
