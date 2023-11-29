@@ -73,10 +73,14 @@ class _TurmasState extends State<Turmas> {
     for (var i = 0; i < turmas.length; i++) {
       lista.add({
         'titulo': '${turmas[i].cod_turma} - ${disciplinas![i].nome}',
-        'descricao': 'Disciplina: ${disciplinas[i].nome}\n'
-            'Professor: ${professores![i].nome}\n'
-            'Dias da aula: ${turmas[i].dias} \n'
-            'Horario de inicio: ${turmas[i].hora_inicio} até as ${turmas[i].hora_fim}',
+        // 'descricao': 
+        //     'Professor: ${professores![i].nome}\n'
+        //     'Dias da aula: ${turmas[i].dias} \n'
+        //     'Horario de inicio: ${turmas[i].hora_inicio} até as ${turmas[i].hora_fim}',
+
+        'professor': '${professores![i].nome}\n',
+        'dias': '${turmas[i].dias} \n',
+        'horario': '${turmas[i].hora_inicio}:00 - ${turmas[i].hora_fim}:00',
       });
     }
 

@@ -34,7 +34,19 @@ class HorizontalCardListColumn extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(cardDataList[index]['titulo']!,style: TextStyle(color: Colors.white,fontSize: 20,fontWeight:FontWeight.w500),),
-                    Text(cardDataList[index]['descricao']!),
+                    Text(
+                      'Professor: ${cardData['professor']}',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    //SizedBox(height: 8.0),
+                    Text(
+                      '${_formatDias(cardData['dias']!)}',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    Text(
+                      '${cardData['horario']}',
+                      style: TextStyle(color: Colors.white,fontSize: 30,fontWeight:FontWeight.w500),
+                    ),
                   ],
               ),)
             );
@@ -44,4 +56,10 @@ class HorizontalCardListColumn extends StatelessWidget {
       ],
     );
   }
+  String _formatDias(String dias) {
+    List<String> diasList = dias.split(',').map((dia) => dia.trim()).toList();
+    return diasList.join(', ');
+  }
+
 }
+
