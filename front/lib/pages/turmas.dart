@@ -134,7 +134,8 @@ class _TurmasState extends State<Turmas> {
               : HorizontalCardListColumn(
                   cardDataList:
                       listagemTurmas(turmas!, disciplinas!, professores!),
-                ),
+                )
+                ,
         ),
         bottomNavigationBar: CurvedNavigationBar(
           key: _bottomNavigationKey,
