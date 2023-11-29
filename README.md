@@ -22,3 +22,6 @@ Quando puxar uma nova atualização no modelo de desenvolvimento, importante dar
   - bundle install
   - bundle update
 
+## Testes
+  - Execute: bundle exec rspec ./spec/testeN_spec.rb
+
