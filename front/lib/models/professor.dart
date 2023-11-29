@@ -7,11 +7,37 @@ class Professor {
       required this.nome,
       required this.cpf,
 });
-  final int id;
+  int id;
   final String nome;
   final String cpf;
- 
-  // final Disciplina disciplina;
+  double latitude = 0;
+  double longitude = 0;
+  int online = 0;
+
+    
+  void setPosicaoProfessor(double latitude, double longitude){
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.online = 1;
+    atualizarProfessor( latitude,  longitude,  online);
+  }
+
+
+  void atualizarProfessor(double latitude, double longitude, int online)async {
+     try
+    { 
+      var response = await http.post(
+      Uri.parse('$BaseUrl/atualizarPosicaoProfessor'),
+      body: {'id': id.toString(),'online': online.toString(), 'latitude': latitude.toString(), 'longitude': longitude.toString()});
+
+    if (response.statusCode == 200) {
+      return;
+    }
+    } catch(e){
+      print(e.toString());
+    }
+  }
+
 
   factory Professor.fromJson(Map<String, dynamic> data) {
     final id = data["id"];

@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
   #Aluno - API
   root 'alunos#index'
-  get "/alunos", to: "alunos#index"
+  get "/aluno/:id", to: "alunos#show"
   post "/login", to: "alunos#login"
+  post "/atualizarPosicaoAluno", to: "alunos#atualizarPosicao"
 
 
   #Turmas - API
@@ -21,6 +22,7 @@ Rails.application.routes.draw do
   #professor - API
   get "/professor/:id", to: "professors#getProfessor"
   post "/loginProfessor", to: "professors#login"
+  post "/atualizarPosicaoProfessor", to: "professors#atualizarPosicao"
 
   resources :alunos
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

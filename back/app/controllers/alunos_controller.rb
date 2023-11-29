@@ -6,6 +6,14 @@ class AlunosController < ApplicationController
     render json: @aluno
   end
 
+  def atualizarPosicao
+    @aluno = Aluno.find(params[:id])
+    @aluno.update(online: params[:online])
+    @aluno.update(latitude: params[:latitude])
+    @aluno.update(longitude: params[:longitude])
+    render json: @aluno, :status => :ok
+  end
+
   #Confere o login inserido e retorna Aluno
   def login
   

@@ -23,6 +23,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_28_143355) do
     t.integer "cpf"
     t.string "email"
     t.string "senha"
+    t.integer "online"
+    t.float "latitude"
+    t.float "longitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -52,6 +55,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_28_143355) do
     t.string "cpf"
     t.string "email"
     t.string "senha"
+    t.integer "online"
+    t.float "latitude"
+    t.float "longitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

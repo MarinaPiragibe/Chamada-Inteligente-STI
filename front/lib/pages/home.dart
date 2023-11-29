@@ -40,7 +40,9 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+
+
+class _HomeState extends State<Home> with WidgetsBindingObserver {
   final List<Map<String, String>> lista = [
     {'titulo': 'Card 1', 'descricao': 'Descrição do Card 1'},
     {'titulo': 'Card 2', 'descricao': 'Descrição do Card 2'},
@@ -48,15 +50,30 @@ class _HomeState extends State<Home> {
     {'titulo': 'Card 4', 'descricao': 'Descrição do Card 4'},
     {'titulo': 'Card 5', 'descricao': 'Descrição do Card 5'}
   ];
+
+  @override
+  initState() {
+      super.initState();
+      WidgetsBinding.instance.addObserver(this);
+      _PegarPosicao();
+    }
+  _PegarPosicao() async{
+     Position? posicao = await Localizacao.posicaoAtual();
+      widget.user is Aluno? widget.user.setPosicaoAluno(posicao.latitude,posicao.longitude): print("213");
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state){
+    super.didChangeAppLifecycleState(state);
+    if(state == AppLifecycleState.detached){
+      print("Fechou");  
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
-
-    pegarPosicao() async{
-      Position? posicao = await Localizacao.posicaoAtual();
-      print(posicao.latitude);
-      print(posicao.altitude);
-    }
-    pegarPosicao();
+    
+ 
 
     return Scaffold(
       //appBar: AppBar(
