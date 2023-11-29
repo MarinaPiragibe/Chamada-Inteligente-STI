@@ -45,7 +45,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with WidgetsBindingObserver{
   int _page = 0;
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   final List<Map<String, String>> lista = [
@@ -55,6 +55,27 @@ class _HomeState extends State<Home> {
     {'titulo': 'Card 4', 'descricao': 'Descrição do Card 4'},
     {'titulo': 'Card 5', 'descricao': 'Descrição do Card 5'}
   ];
+
+  @override
+    initState() {
+        super.initState();
+        WidgetsBinding.instance.addObserver(this);
+        _PegarPosicao();
+      }
+    _PegarPosicao() async{
+       Position? posicao = await Localizacao.posicaoAtual();
+        widget.user is Aluno? widget.user.setPosicaoAluno(posicao.latitude,posicao.longitude): widget.user.setPosicaoProfessor(posicao.latitude,posicao.longitude);
+    }
+
+    @override
+    void didChangeAppLifecycleState(AppLifecycleState state){
+      super.didChangeAppLifecycleState(state);
+      if(state == AppLifecycleState.detached){
+        widget.user is Aluno? widget.user.logoutAluno(): widget.user.logoutProfessor();
+
+      }
+    }
+
   @override
   Widget build(BuildContext context) {
     Widget buildCurvedNavigationBarItem(IconData icon, String label) {
@@ -74,13 +95,7 @@ class _HomeState extends State<Home> {
       );
     }
 
-    pegarPosicao() async {
-      Position? posicao = await Localizacao.posicaoAtual();
-      print(posicao.latitude);
-      print(posicao.altitude);
-    }
 
-    pegarPosicao();
 
     return Scaffold(
         body: Container(
@@ -146,7 +161,7 @@ class _HomeState extends State<Home> {
             ),
             Padding(
   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-  
+
   child: GestureDetector(
     onTap: () {
       Navigator.push(

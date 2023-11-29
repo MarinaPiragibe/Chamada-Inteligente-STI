@@ -8,10 +8,20 @@ class Aluno {
       required this.cpf,
       required this.email,
 });
-  final int id;
+  int id;
   final String nome;
   final String cpf;
   final String email;
+  double latitude = 0;
+  double longitude = 0;
+  int online = 0;
+
+  void setPosicaoAluno(double latitude, double longitude){
+    this.latitude = latitude;
+    this.longitude = longitude;
+    this.online = 1;
+    this.atualizarAluno(latitude, longitude, this.online);
+  }
  
   // final Disciplina disciplina;
 
@@ -29,6 +39,44 @@ class Aluno {
         email: email);
   }
 
+void atualizarAluno(double latitude, double longitude, int online)async {
+     try
+    { 
+      var response = await http.post(
+      Uri.parse('$BaseUrl/atualizarPosicaoAluno'),
+      body: {'id': id.toString(),'online': online.toString(), 'latitude': latitude.toString(), 'longitude': longitude.toString()});
+
+    if (response.statusCode == 200) {
+      return;
+    }
+    } catch(e){
+      print(e.toString());
+    }
+  }
+
+
+//logout aluno
+void logoutAluno(){
+  this.online = 0;
+  this.latitude = 0;
+  this.longitude = 0;
+  this.logoutAlunoApi();
+}
+
+  void logoutAlunoApi() async{
+  try
+    { 
+      var response = await http.post(
+      Uri.parse('$BaseUrl/logout'),
+      body: {'id': id.toString()});
+
+    if (response.statusCode == 200) {
+      return;
+    }
+    } catch(e){
+      print(e.toString());
+    }
+  }
 
 //Login aluno
 static Future<Aluno?> verificarAluno(String email, String senha) async{

@@ -66,21 +66,37 @@ class TurmasController < ApplicationController
     end
 
 def recuperarChamadaAluno()
+  require_relative 'CalcularDistancia'
+  #Pegar dia da semana
   I18n.locale = :pt
   dia_da_semana = I18n.l(Date.today, format: '%A')
+  #Pegar hora atual
+  t = Time.now
+  horario_atual = t.strftime("%H")
+  #Pegar as turmas do aluno especifico
   @turmas = Turma.joins(aluno_pertence_turmas: :aluno).where("aluno_id = ?",params[:id])
-  chamada_aula_ativa =[]
+  @aluno = Aluno.find(params[:id])
   for turma in @turmas do
-      for chamadaAula in turma.dias.split("\n")
+    @professor = Professor.find(turma.professors_id)
+    #Tiro os colchetes
+    diasTurma = turma.dias.gsub(/[\[\]"]/, '')
+    diasTurma = diasTurma.split(',')
+    if @professor.online == 1
+    #Verificando cada dia da turma
+      for diaAula in diasTurma do
+          #Tirando espaço vazio da string
+          diaAula = diaAula.lstrip
           #Verificar se a chamada esta ativa, naquele dia e no horario de aula
-          if turma.chamada_ativa == 0
-            #chamadaAula === dia_da_semana &&
-            chamada_aula_ativa = turma
+          if turma.chamada_ativa == 1 and diaAula == dia_da_semana and turma.hora_inicio <= horario_atual.to_i and turma.hora_fim > horario_atual.to_i
+            if CalcularDistancia.calcular_distancia(@aluno.latitude.to_f, @aluno.longitude.to_f, @professor.latitude.to_f, @professor.longitude.to_f) < 5
+              chamada_aula_ativa = turma
+            end
           end
       end
+    end
     
   end
-if(chamada_aula_ativa  != [])
+if(chamada_aula_ativa)
   render json: chamada_aula_ativa, :status => :ok
 else
   error = {

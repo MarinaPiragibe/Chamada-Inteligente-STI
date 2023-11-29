@@ -12,6 +12,22 @@ class ProfessorsController < ApplicationController
       render :json => error, :status => :bad_request
     end
   end
+  def atualizarPosicao
+    @professor = Professor.find(params[:id])
+    @professor.update(online: 1)
+    @professor.update(latitude: params[:latitude])
+    @professor.update(longitude: params[:longitude])
+    render json: @professor, :status => :ok
+  end
+
+  #logout professor
+  def logout
+    @professor = Professor.find(params[:id])
+    @professor.update(online: 0)
+    @aluno.update(latitude: 0.0)
+    @aluno.update(longitude: 0.0)
+    render json: @professor, :status => :ok
+  end
 
   #Retorna o login do professor
   def login
