@@ -138,34 +138,68 @@ class _TurmasState extends State<Turmas> {
                 )
                 ,
         ),
-        bottomNavigationBar: CurvedNavigationBar(
-          key: _bottomNavigationKey,
-          index: 1,
-          height: 60.0,
-          items: <Widget>[
-            buildCurvedNavigationBarItem(Icons.home, 'Ínicio'),
-            Icon(
-              Icons.list,
-              size: 30,
-              color: Color.fromRGBO(255, 255, 255, 1),
-            ),
-            buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
-            buildCurvedNavigationBarItem(Icons.phone_enabled, 'Chamada'),
-          ],
-          color: Color.fromRGBO(6, 39, 80, 1),
-          buttonBackgroundColor: Color.fromRGBO(6, 39, 80, 1),
-          backgroundColor: Color.fromRGBO(168, 245, 255, 0.8177),
-          animationCurve: Curves.easeInOut,
-          animationDuration: Duration(milliseconds: 600),
-          onTap: (index) {
-            setState(() {
-              _page = index;
-            });
-            final routes = ['/home', '/turmas', '/login', '/chamada'];
-            Navigator.pushReplacementNamed(context, routes[index],
-                arguments: widget.user);
-          },
-          letIndexChange: (index) => true,
-        ));
+       bottomNavigationBar:
+            //BottomNavBar(user:widget.user),
+            widget.user is Aluno
+                ? CurvedNavigationBar(
+                    key: _bottomNavigationKey,
+                    index: 0,
+                    height: 60.0,
+                    items: <Widget>[
+                      Icon(
+                        Icons.home,
+                        size: 30,
+                        color: Color.fromRGBO(255, 255, 255, 1),
+                      ),
+                      buildCurvedNavigationBarItem(Icons.list, 'Turmas'),
+                      buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
+                      buildCurvedNavigationBarItem(
+                          Icons.phone_enabled, 'Chamada'),
+                    ],
+                    color: Color.fromRGBO(6, 39, 80, 1),
+                    buttonBackgroundColor: Color.fromRGBO(6, 39, 80, 1),
+                    backgroundColor: Color.fromRGBO(168, 245, 255, 0.8177),
+                    animationCurve: Curves.easeInOut,
+                    animationDuration: Duration(milliseconds: 600),
+                    onTap: (index) {
+                      setState(() {
+                        _page = index;
+                      });
+                      final routes = ['/home', '/turmas', '/perfil', '/chamada'];
+                      Navigator.pushReplacementNamed(context, routes[index],
+                          arguments: widget.user);
+                    },
+                    letIndexChange: (index) => true,
+                  )
+                : CurvedNavigationBar(
+                    key: _bottomNavigationKey,
+                    index: 0,
+                    height: 60.0,
+                    items: <Widget>[
+                      Icon(
+                        Icons.home,
+                        size: 30,
+                        color: Color.fromRGBO(255, 255, 255, 1),
+                      ),
+                      buildCurvedNavigationBarItem(Icons.list, 'Admin'),
+                      buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
+                      //buildCurvedNavigationBarItem(Icons.phone_enabled, 'Chamada')
+                    ],
+                    color: Color.fromRGBO(6, 39, 80, 1),
+                    buttonBackgroundColor: Color.fromRGBO(6, 39, 80, 1),
+                    backgroundColor: Color.fromRGBO(168, 245, 255, 0.8177),
+                    animationCurve: Curves.easeInOut,
+                    animationDuration: Duration(milliseconds: 600),
+                    onTap: (index) {
+                      setState(() {
+                        _page = index;
+                      });
+                      final routes = ['/home', '/chamadaProfessor', '/perfil'];
+                      Navigator.pushReplacementNamed(context, routes[index],
+                          arguments: widget.user);
+                    },
+                    letIndexChange: (index) => true,
+                  )
+        );
   }
 }
