@@ -8,6 +8,8 @@ import 'package:chamada_inteligente/utils/card-horizontal.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:chamada_inteligente/utils/page-utils-aluno.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class GradientPage extends StatelessWidget {
   final Widget child;
@@ -41,6 +43,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int _page = 0;
+  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   final List<Map<String, String>> lista = [
     {'titulo': 'Card 1', 'descricao': 'Descrição do Card 1'},
     {'titulo': 'Card 2', 'descricao': 'Descrição do Card 2'},
@@ -50,7 +54,16 @@ class _HomeState extends State<Home> {
   ];
   @override
   Widget build(BuildContext context) {
-
+    
+    Widget buildCurvedNavigationBarItem(IconData icon, String label) {
+    return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Icon(icon, size: 30, color: Colors.white,),
+      Text(label,style: TextStyle(color: Colors.white),),
+    ],
+  );
+}
     pegarPosicao() async{
       Position? posicao = await Localizacao.posicaoAtual();
       print(posicao.latitude);
@@ -59,10 +72,6 @@ class _HomeState extends State<Home> {
     pegarPosicao();
 
     return Scaffold(
-      //appBar: AppBar(
-        //title: Text('teste'),
-        // shape: WavyAppBarShape(),
-        //),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -122,20 +131,59 @@ class _HomeState extends State<Home> {
             HorizontalCardList(
               cardDataList: lista),
           ]),),
-      bottomNavigationBar:
-      widget.user is Aluno ? PageUtils.buildBottomNavigationBarAluno(context, widget.user) : PageUtils.buildBottomNavigationBarProfessor(context, widget.user),
-    //     CurvedNavigationBar(
-    //       color: Color.fromRGBO(6, 39, 80, 1),
-    //       backgroundColor: Color.fromARGB(0, 1, 3, 8),
-    //       items: <Widget>[
-    //         Icon(Icons.home, size: 30,color: Colors.white,),
-    //         Icon(Icons.list, size: 30,color: Colors.white,),
-    //         Icon(Icons.add, size: 30,color: Colors.white,),
-    //       ],
-    //       onTap: (index) {
-    // })
-    
-          
+      bottomNavigationBar: 
+      //BottomNavBar(user:widget.user),
+      widget.user is Aluno ? 
+      CurvedNavigationBar(
+          key: _bottomNavigationKey,
+          index: 0,
+          height: 60.0,
+          items: <Widget>[
+            Icon(Icons.home, size: 30,color: Color.fromRGBO(255, 255, 255, 1),),
+            buildCurvedNavigationBarItem(Icons.list, 'Turmas'),
+            buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
+            buildCurvedNavigationBarItem(Icons.phone_enabled, 'Chamada'),
+          ],
+          color: Color.fromRGBO(6, 39, 80, 1),
+          buttonBackgroundColor: Color.fromRGBO(6, 39, 80, 1),
+          backgroundColor: Color.fromRGBO(168, 245, 255, 0.8177),
+          animationCurve: Curves.easeInOut,
+          animationDuration: Duration(milliseconds: 600),
+          onTap: (index) {
+            setState(() {
+              _page = index;
+            });
+            final routes = ['/home', '/turmas', '/login','/chamada'];
+            Navigator.pushReplacementNamed(context, routes[index], arguments: widget.user);
+          },
+          letIndexChange: (index) => true,
+        )
+        :
+
+        CurvedNavigationBar(
+          key: _bottomNavigationKey,
+          index: 0,
+          height: 60.0,
+          items: <Widget>[
+            Icon(Icons.home, size: 30,color: Color.fromRGBO(255, 255, 255, 1),),
+            buildCurvedNavigationBarItem(Icons.list, 'Admin'),
+            buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
+          ],
+          color: Color.fromRGBO(6, 39, 80, 1),
+          buttonBackgroundColor: Color.fromRGBO(6, 39, 80, 1),
+          backgroundColor: Color.fromRGBO(168, 245, 255, 0.8177),
+          animationCurve: Curves.easeInOut,
+          animationDuration: Duration(milliseconds: 600),
+          onTap: (index) {
+            setState(() {
+              _page = index;
+            });
+            final routes = ['/home', '/admin', '/login'];
+            Navigator.pushReplacementNamed(context, routes[index], arguments: widget.user);
+          },
+          letIndexChange: (index) => true,
+        )
+      //widget.user is Aluno ? PageUtils.buildBottomNavigationBarAluno(context, widget.user) : PageUtils.buildBottomNavigationBarProfessor(context, widget.user),      
     );
   }
 }

@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:chamada_inteligente/models/disciplina.dart';
 import 'package:intl/intl.dart';
+import 'package:chamada_inteligente/utils/page-utils-aluno.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:chamada_inteligente/utils/card-horizontal-coluna.dart';
 
 class Turmas extends StatefulWidget {
   final Aluno user;
@@ -33,6 +36,8 @@ class _TurmasState extends State<Turmas> {
   List<Professor>? professores = [];
 
   List<Chamada> chamadas_ativas = [];
+  int _page = 1;
+  GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   final String diaSemana = DateFormat(DateFormat.WEEKDAY, 'pt_Br').format(DateTime.now());
   @override
   void initState() {
@@ -82,20 +87,60 @@ class _TurmasState extends State<Turmas> {
 
   @override
   Widget build(BuildContext context) {
+    Widget buildCurvedNavigationBarItem(IconData icon, String label) {
+    return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Icon(icon, size: 30, color: Colors.white,),
+      Text(label,style: TextStyle(color: Colors.white),),
+    ],
+  );
+}
     return Scaffold(
       appBar: AppBar(
         title: Text('Turmas'),
       ),
-      body: turmas == [] || turmas!.isEmpty
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color.fromRGBO(255,255,255,1),Color.fromRGBO(177, 246, 255, 0.52), Color.fromRGBO(168, 245, 255, 0.8177)],
+          ),
+          ),
+        child: turmas == [] || turmas!.isEmpty
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : HorizontalCardList(
+          : HorizontalCardListColumn(
               cardDataList: listagemTurmas(turmas!, disciplinas!, professores!),
              
-            ),          
+            ),),          
       bottomNavigationBar:
-          PageUtils.buildBottomNavigationBarAluno(context, widget.user),
+      CurvedNavigationBar(
+          key: _bottomNavigationKey,
+          index: 1,
+          height: 60.0,
+          items: <Widget>[
+            buildCurvedNavigationBarItem(Icons.home, 'Ínicio'),
+            Icon(Icons.list, size: 30,color: Color.fromRGBO(255, 255, 255, 1),),
+            buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
+            buildCurvedNavigationBarItem(Icons.phone_enabled, 'Chamada'),
+          ],
+          color: Color.fromRGBO(6, 39, 80, 1),
+          buttonBackgroundColor: Color.fromRGBO(6, 39, 80, 1),
+          backgroundColor: Color.fromRGBO(168, 245, 255, 0.8177),
+          animationCurve: Curves.easeInOut,
+          animationDuration: Duration(milliseconds: 600),
+          onTap: (index) {
+            setState(() {
+              _page = index;
+            });
+            final routes = ['/home', '/turmas', '/login','/chamada'];
+            Navigator.pushReplacementNamed(context, routes[index], arguments: widget.user);
+          },
+          letIndexChange: (index) => true,
+        )
     );
   }
 }

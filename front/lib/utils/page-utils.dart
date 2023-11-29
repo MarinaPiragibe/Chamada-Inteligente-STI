@@ -54,11 +54,13 @@ static BottomNavigationBar buildBottomNavigationBarProfessor(
   static BottomNavigationBar buildBottomNavigationBarAluno(
       BuildContext context, dynamic user) {
     return BottomNavigationBar(
+      selectedLabelStyle: TextStyle(color: Colors.black),
+      selectedIconTheme: IconThemeData(color: Colors.black),
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Início',
-        
+          backgroundColor: Colors.blue,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.list),
@@ -78,18 +80,7 @@ static BottomNavigationBar buildBottomNavigationBarProfessor(
         // buildCurvedNavigationBarItem(Icons.person, 'Perfil'),
         // buildCurvedNavigationBarItem(Icons.phone_enabled, 'Chamada'),
       ],
-        selectedLabelStyle: TextStyle(
-      color: Colors.blue, // Cor do texto do rótulo selecionado
-      fontSize: 14.0, // Tamanho do texto do rótulo selecionado
-      fontWeight: FontWeight.bold, // Peso da fonte para rótulo selecionado
-    ),
-    unselectedLabelStyle: TextStyle(
-      color: Colors.grey, // Cor do texto do rótulo não selecionado
-      fontSize: 14.0, // Tamanho do texto do rótulo não selecionado
-      fontWeight: FontWeight.normal, // Peso da fonte para rótulo não selecionado
-    ),
       currentIndex: selectedIndex,
-      selectedItemColor:const Color.fromARGB(255, 0, 0, 0),
       onTap: (int index) {
         selectedIndex = index;
         final routes = ['/home', '/turmas', '/login','/chamada'];
