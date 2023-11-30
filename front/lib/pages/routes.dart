@@ -46,10 +46,10 @@ class Routes {
       final user = ModalRoute.of(context)!.settings.arguments as Professor;
       return ChamadaProfessor(user: user);
   },
-    Routes.detalhesTurma: (context) {
-      final user = ModalRoute.of(context)!.settings.arguments as dynamic;
-      print(user);
-      return DetalhesTurma(state: user);
-  },
+  //   Routes.detalhesTurma: (context) {
+  //     final user = ModalRoute.of(context)!.settings.arguments as dynamic;
+  //     print(user);
+  //     return DetalhesTurma(state: user);
+  // },
 };
 }

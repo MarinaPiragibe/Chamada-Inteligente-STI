@@ -20,4 +20,16 @@ class ChamadasController < ApplicationController
         render json: false, :status => :bad_request
     end
     end
+
+
+def alunosChamada
+        chamadas = Chamada.where('turmas_id =?', params[:id])
+        alunos = []
+        alunos = chamadas.map { |chamada| Aluno.find(chamada.alunos_id) }
+        if alunos.empty?
+        render json: "Error", :status => :bad_request
+        else
+        render json: alunos, :status => :ok
+        end
+    end
 end

@@ -70,6 +70,32 @@ class Turma {
     }
   }
 
+static void ligarChamada(String id) async{
+  try{
+    var response = await http.post(Uri.parse('$BaseUrl/ligarChamada/' + id.toString()),
+    body: {});
+     if (response.statusCode == 200) {
+        print("Chamada atualizada para ativa");
+
+        }
+  }catch (e) {
+      print(e.toString());
+    }
+}
+
+static void desligarChamada(String id) async{
+  try{
+    var response = await http.post(Uri.parse('$BaseUrl/desligarChamada/' + id.toString()),
+    body: {});
+     if (response.statusCode == 200) {
+        print("Chamada atualizada para desligada!");
+        
+        }
+  }catch (e) {
+      print(e.toString());
+    }
+}
+
 //Recupera turmas do professor
   static Future<List<Turma>?> getTurmasProfessor(int id) async {
     try {

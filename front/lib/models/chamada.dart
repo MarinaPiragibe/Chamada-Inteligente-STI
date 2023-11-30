@@ -49,10 +49,30 @@ try
 } catch(e){
   print(e.toString());
 }
+ }
+
+static Future<List<Aluno>?> assinaturasTurma(String id) async{
+try
+{
+  List<Aluno> alunos = [];
+  var response = await http.get(Uri.parse('$BaseUrl/alunosChamada/' + id.toString()) );
+  if(response.statusCode == 200){
+    var data = json.decode(response.body);
+      for (int i = 0; i < data.length; i++) {
+          alunos.add(Aluno.fromJson(data[i]));
+        }
+        return alunos;
+  }
+
+
+} catch(e){
+  print(e.toString());
+}
+}
 
 
 
   
    
-}
+
 }

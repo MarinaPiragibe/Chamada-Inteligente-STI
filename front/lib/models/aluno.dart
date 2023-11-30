@@ -26,7 +26,6 @@ class Aluno {
   // final Disciplina disciplina;
 
   factory Aluno.fromJson(Map<String, dynamic> data) {
-    print(data);
     final id = data["id"];
     final nome = data["nome"];
     final cpf = data["cpf"].toString();

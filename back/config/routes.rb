@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   get "/turmas/aluno/:id", to: "turmas#turmasAluno"
   get "/turmas/professor/:id", to: "turmas#turmasProfessor"
   get "/disciplinas/:id", to: "disciplinas#getDisciplina"
+  get "/alunosChamada/:id", to:"chamadas#alunosChamada"
+  post "/ligarChamada/:id", to:"turmas#ligarChamada"
+  post "/desligarChamada/:id", to:"turmas#desligarChamada"
 
 
   #chamada - API

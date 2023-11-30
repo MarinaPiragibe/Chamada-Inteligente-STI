@@ -35,7 +35,6 @@ class _TurmasState extends State<Turmas> {
   List<Turma>? turmas = [];
   List<Professor>? professores = [];
 
-  List<Chamada> chamadas_ativas = [];
   int _page = 1;
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   final String diaSemana =

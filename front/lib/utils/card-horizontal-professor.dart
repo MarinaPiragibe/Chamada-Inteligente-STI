@@ -65,7 +65,7 @@ class HorizontalCardListColumnProfessor extends StatelessWidget {
                       icon: Icon(Icons.cell_wifi),
                       color: Colors.black,
                       onPressed: () {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => DetalhesTurma(state:[professor,cardData['id']] ),
