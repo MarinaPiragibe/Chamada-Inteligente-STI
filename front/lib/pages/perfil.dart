@@ -12,7 +12,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:chamada_inteligente/utils/page-utils-aluno.dart';
 import 'package:chamada_inteligente/pages/chamadaProfessor.dart';
 
-// Perfil = Home
+
 class Perfil extends StatefulWidget {
   final dynamic user;
 
@@ -22,29 +22,7 @@ class Perfil extends StatefulWidget {
   State<Perfil> createState() => _PerfilState();
 }
 
-// Gradiente (nn esta funcionando)
-class GradientPage extends StatelessWidget {
-  final Widget child;
 
-  GradientPage({required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.blue[900]!, Colors.blue[1000]!],
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: child,
-      ),
-    );
-  }
-}
 
 class _PerfilState extends State<Perfil> with WidgetsBindingObserver{
   int _page = 2;
@@ -73,79 +51,88 @@ class _PerfilState extends State<Perfil> with WidgetsBindingObserver{
     
     // Barra de navegação
     return Scaffold(
-      body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Padding(
-              padding: const EdgeInsets.only(top: 20),
-              // imagem de perfil
-              child: 
-                Column(
-                  children: [
-                    Stack(
-                      children: <Widget>[
-                        // Círculo ao redor do ícone
-                        Container(
-                          width: 250,
-                          height: 250,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color.fromRGBO(6, 39, 80, 1),
-                          ),
-                        ),
-                        // Ícone de pessoa sobreposto ao círculo
-                        const Icon(
-                          Icons.person,
-                          color: Colors.white,
-                          size: 210,
-                        ),
-                      ],
-                    ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient:LinearGradient(
+            begin: Alignment.topCenter, end: Alignment.bottomCenter,
+            colors: [
+              Color.fromRGBO(255,255,255,1),
+              Color.fromRGBO(177, 246, 255, 0.52),
+              Color.fromRGBO(168, 245, 255, 0.8177)
+            ],
+          ),
+        ),
 
-                  // Nome + edit
-                  Row(
-                    children: [
-                      Text(
-                        widget.user.nome,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(6, 39, 80, 1),
-                            fontSize: 25),
-                        
-                      ),
-                      const Icon(
-                        Icons.edit,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center, 
+        children: [
+              // imagem de perfil
+                Stack(
+                  children: <Widget>[
+                    // Círculo ao redor do ícone
+                    Container(
+                      width: 210,
+                      height: 210,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
                         color: Color.fromRGBO(6, 39, 80, 1),
-                        size: 25,
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                    // Ícone de pessoa sobreposto ao círculo
+                    const Icon(
+                      Icons.person,
+                      color: Colors.white,
+                      size: 210,
+                    ),
+                  ],
+                ),
+              // Nome + edit
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
                   Text(
-                    'Alterar dados de cadastro',
+                    widget.user.nome,
                     style: const TextStyle(
-                    fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(6, 39, 80, 1),
+                        fontSize: 25),
+                    
+                  ),
+                  const Icon(
+                    Icons.edit,
                     color: Color.fromRGBO(6, 39, 80, 1),
-                    fontSize: 25),
-                    
-                  ),
-                  Text(
-                    'Configurações',
-                    style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(6, 39, 80, 1),
-                    fontSize: 25),
-                    
-                  ),
-                  Text(
-                    'Sair',
-                    style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(200, 0, 0, 1),
-                    fontSize: 25),
-                    
-                  ),
+                    size: 25,
+                  )
                 ],
               ),
-            ),
-      ]),
+              Text(
+                'Alterar dados de cadastro',
+                style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(6, 39, 80, 1),
+                fontSize: 25),
+                
+              ),
+              Text(
+                'Configurações',
+                style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(6, 39, 80, 1),
+                fontSize: 25),
+                
+              ),
+              Text(
+                'Sair',
+                style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(200, 0, 0, 1),
+                fontSize: 25),
+        
+                      ),
+        ],
+  ),
+  ),
 
       bottomNavigationBar:
             //BottomNavBar(user:widget.user),
