@@ -6,6 +6,7 @@ import 'package:chamada_inteligente/models/chamada.dart';
 import 'package:chamada_inteligente/models/professor.dart';
 import 'package:chamada_inteligente/models/turma.dart';
 import 'package:chamada_inteligente/utils/card-horizontal-coluna.dart';
+import 'package:chamada_inteligente/utils/card-horizontal-professor.dart';
 import 'package:chamada_inteligente/utils/card-horizontal.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -31,7 +32,7 @@ class _ChamadaProfessorState extends State<ChamadaProfessor> {
   GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   //inicializando dados
   List<Turma>? turmasProfessor;
-  Professor? professor;
+
 
   final String diaSemana =
       DateFormat(DateFormat.WEEKDAY, 'pt_Br').format(DateTime.now());
@@ -48,7 +49,7 @@ class _ChamadaProfessorState extends State<ChamadaProfessor> {
 
     setState(() {
       turmasProfessor = turmasProfessor;
-      professor = widget.user;
+      
     });
   }
 
@@ -61,6 +62,7 @@ class _ChamadaProfessorState extends State<ChamadaProfessor> {
 
     for (var i = 0; i < turmas.length; i++) {
       lista.add({
+        'id': '${turmas[i].id}',
         'titulo': '${turmas[i].cod_turma} -',
         'professor': '${professor!.nome}\n',
         'dias': '${turmas[i].dias} \n',
@@ -121,9 +123,10 @@ class _ChamadaProfessorState extends State<ChamadaProfessor> {
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
-              : HorizontalCardListColumn(
+              : HorizontalCardListColumnProfessor(
                   cardDataList: 
-                      listagemTurmas(turmasProfessor, professor),
+                      listagemTurmas(turmasProfessor, widget.user),
+                      professor: widget.user,
                 ),
         ),
          bottomNavigationBar:

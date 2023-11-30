@@ -19,17 +19,6 @@ class DetalhesTurma extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.blue[900]!, Colors.blue[1000]!],
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-      ),
-    );
+    return Text("Xd");
   }
 }
