@@ -1,18 +1,15 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:convert';
+import 'dart:ffi';
+
 import 'package:chamada_inteligente/models/aluno.dart';
 import 'package:chamada_inteligente/models/chamada.dart';
+import 'package:chamada_inteligente/models/disciplina.dart';
 import 'package:chamada_inteligente/models/professor.dart';
 import 'package:chamada_inteligente/models/turma.dart';
-import 'package:chamada_inteligente/utils/card-horizontal.dart';
-import 'package:chamada_inteligente/utils/card-utils.dart';
-import 'package:chamada_inteligente/utils/page-utils.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:chamada_inteligente/models/disciplina.dart';
-import 'package:intl/intl.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ChamadaPage extends StatefulWidget {
   final Aluno user;
@@ -33,6 +30,8 @@ class _ChamadaPageState extends State<ChamadaPage> {
   //inicializando dados
   Turma? turma;
   Professor? professor;
+  Disciplina? disciplina;
+  bool? jaAssinou;
 
   final String diaSemana =
       DateFormat(DateFormat.WEEKDAY, 'pt_Br').format(DateTime.now());
@@ -48,10 +47,26 @@ class _ChamadaPageState extends State<ChamadaPage> {
     turma != null
         ? professor = (await Professor.getProfessor(turma!.professors_id))
         : professor = null;
+    turma != null
+        ? disciplina = (await Disciplina.getDisciplinas(turma!.disciplinas_id))
+        : disciplina = null;
+
+    final dia_hoje = DateFormat(DateFormat.YEAR_NUM_MONTH_DAY, 'pt_Br')
+        .format(DateTime.now())
+        .toString();
+    if (turma != null) {
+      jaAssinou = await Chamada.verificarAssinaturaAluno(
+        widget.user.id, turma!.id, dia_hoje);
+   
+    }
+    
+    
 
     setState(() {
       turma = turma;
       professor = professor;
+      disciplina = disciplina;
+      jaAssinou = jaAssinou;
     });
   }
 
@@ -98,13 +113,16 @@ class _ChamadaPageState extends State<ChamadaPage> {
               ],
             ),
           ),
-            child: turma != null
+            child: jaAssinou == false? Text("Já assinou nesse horário"): turma != null
                 ? Center(
                     child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "${professor!.nome}",
+                        "${professor!.nome} - ${disciplina!.nome}\n"+
+                        "Dia de hoje: ${DateFormat(DateFormat.YEAR_NUM_MONTH_DAY, 'pt_Br')
+        .format(DateTime.now())
+        .toString()}",
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -190,20 +208,14 @@ class _ChamadaPageState extends State<ChamadaPage> {
   }
 
   void assinarAula(turma, professor) async {
-    final dia_hoje = DateFormat(DateFormat.YEAR_NUM_MONTH_DAY, 'pt_Br')
-        .format(DateTime.now())
-        .toString();
-    bool? validarAssinatura = await Chamada.verificarAssinaturaAluno(
-        widget.user.id, turma.id, dia_hoje);
-    if (validarAssinatura != true) {
-      print("Já assinou nesse dia");
-      return;
-    }
     if (turma.hora_inicio <= (DateTime.now().hour) &&
         DateTime.now().hour < turma.hora_fim) {
       final chamadas_ativas = new Chamada(
            aluno: widget.user, turma: turma, professor: professor);
       Chamada.marcarPresenca(chamadas_ativas, DateTime.now(), DateTime.now());
+      setState(() {
+        jaAssinou=false;
+      });
     }
   }
 }

@@ -174,6 +174,8 @@ Widget buildLogin(BuildContext context) {
           if (professor != null) {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => Home(user: professor)));
+            _senha.clear();
+            _email.clear();
           } else
             loginComFalha(context);
         } else {
@@ -182,6 +184,8 @@ Widget buildLogin(BuildContext context) {
           if (aluno != null) {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => Home(user: aluno)));
+            _senha.clear();
+            _email.clear();
           } else
             loginComFalha(context);
         }

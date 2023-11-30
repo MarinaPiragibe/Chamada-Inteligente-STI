@@ -61,8 +61,8 @@ try
       for (int i = 0; i < data.length; i++) {
           alunos.add(Aluno.fromJson(data[i]));
         }
-        return alunos;
   }
+  return alunos;
 
 
 } catch(e){
